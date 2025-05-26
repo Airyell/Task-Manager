@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to Task Manager</title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-circle.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,12 +87,13 @@
                         </div>
                         <div class="d-grid mb-4">
                             <button type="submit" class="btn btn-primary">Login</button>
+                            <a href="{{ route('register') }}">Register</a>
                         </div>
                     </form>
                 </div>
 
                 <div class="card-footer text-center">
-                   <p>Developed by: <a class="text-decoration-none text-black" href="https://github.com/arafat-web" target="_blank">Arafat Hossain Ar</a></p>
+                   <p>&copy; Copyright All Rights Reserved 2025 by:Nikol and friends</p>
                 </div>
             </div>
         </div>

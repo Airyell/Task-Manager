@@ -65,3 +65,7 @@ Route::middleware(['auth'])->group(function () {
         ));
     })->name('dashboard');
 });
+use App\Http\Controllers\Auth\RegisterController;
+
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> @yield('title') | Task Manager </title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo-circle.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -171,21 +171,23 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                         <ul class="navbar-nav">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ Auth::user()->name }}
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="#">Settings</a></li>
-                                    <li>
-                                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item">Logout</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
+                            @auth
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            {{ Auth::user()->name }}
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li>
+                <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                    @csrf
+                    <button type="submit" class="dropdown-item">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </li>
+@endauth                                        
                         </ul>
                     </div>
                 </div>
@@ -196,8 +198,7 @@
         </main>
         <footer class="mt-auto py-3 text-center">
             <div class="container">
-                <span class="text-muted">&copy; {{ date('Y') }} Task Manager | Developed by <a
-                        href="https://github.com/arafat-web" target="_blank">Arafat Hossain Ar</a> </span>
+                <span class="text-muted">&copy; Copyright All Rights Reserved 2025 by: Nikol and friends</span>
             </div>
         </footer>
     </div>
