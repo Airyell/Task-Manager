@@ -32,7 +32,7 @@
                 <div class="card shadow-sm h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">Reminders</h5>
-                        <p class="card-text flex-grow-1">You have <strong>{{ $notesCount }}</strong> reminders saved.</p>
+                        <p class="card-text flex-grow-1">You have <strong>{{ $remindersCount }}</strong> reminders saved.</p>
                         <a href="{{ route('reminders.index') }}" class="btn btn-primary mt-auto">View Reminders</a>
                     </div>
                 </div>

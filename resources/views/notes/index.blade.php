@@ -23,7 +23,6 @@
                         <h5 class="card-title">{{ $note->title }}</h5>
                         <p class="card-text">{{ Str::limit($note->content, 150) }}</p>
                         <p class="card-text"><strong>Date:</strong> {{ $note->date }}</p>
-                        <p class="card-text"><strong>Time:</strong> {{ $note->time }}</p>
                         <div class="d-flex justify-content-between">
                             <a href="{{ route('notes.edit', $note->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('notes.destroy', $note->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this note?');">

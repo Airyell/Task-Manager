@@ -30,13 +30,6 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="time" class="form-label">Time</label>
-                        <input type="time" name="time" id="time" class="form-control">
-                        @error('time')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <button type="submit" class="btn btn-primary">Add Note</button>
                 </form>
             </div>

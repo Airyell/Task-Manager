@@ -30,6 +30,9 @@ Route::middleware(['auth'])->group(function () {
 
     // ✅ ADD THIS ROUTE FOR HISTORY PAGE
     Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
+    Route::delete('/history/{id}', [HistoryController::class, 'destroy'])->name('history.destroy');
+
+
 
 
 

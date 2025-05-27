@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Note;
+use App\Models\ActivityLog; // ✅ Add this
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +29,14 @@ class NoteController extends Controller
             'time' => 'nullable|date_format:H:i',
         ]);
 
-        Auth::user()->notes()->create($request->all());
+        $note = Auth::user()->notes()->create($request->all());
+
+        // ✅ Log create note activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Create Note',
+            'description' => 'Created note "' . $note->title . '" on ' . now()->format('F j, Y'),
+        ]);
 
         return redirect()->route('notes.index')->with('success', 'Note created successfully.');
     }
@@ -49,11 +57,25 @@ class NoteController extends Controller
 
         $note->update($request->all());
 
+        // ✅ Log update note activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Note',
+            'description' => 'Updated note "' . $note->title . '" on ' . now()->format('F j, Y'),
+        ]);
+
         return redirect()->route('notes.index')->with('success', 'Note updated successfully.');
     }
 
     public function destroy(Note $note)
     {
+        // ✅ Log delete note activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Delete Note',
+            'description' => 'Deleted note "' . $note->title . '" on ' . now()->format('F j, Y'),
+        ]);
+
         $note->delete();
         return redirect()->route('notes.index')->with('success', 'Note deleted successfully.');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reminder;
+use App\Models\ActivityLog; // ✅ Import ActivityLog
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,7 +29,14 @@ class ReminderController extends Controller
             'time' => 'nullable|date_format:H:i',
         ]);
 
-        Auth::user()->reminders()->create($request->all());
+        $reminder = Auth::user()->reminders()->create($request->all());
+
+        // ✅ Log create reminder activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Create Reminder',
+            'description' => 'Created reminder "' . $reminder->title . '" on ' . now()->format('F j, Y'),
+        ]);
 
         return redirect()->route('reminders.index')->with('success', 'Reminder created successfully.');
     }
@@ -49,11 +57,25 @@ class ReminderController extends Controller
 
         $reminder->update($request->all());
 
+        // ✅ Log update reminder activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Reminder',
+            'description' => 'Updated reminder "' . $reminder->title . '" on ' . now()->format('F j, Y'),
+        ]);
+
         return redirect()->route('reminders.index')->with('success', 'Reminder updated successfully.');
     }
 
     public function destroy(Reminder $reminder)
     {
+        // ✅ Log delete reminder activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Delete Reminder',
+            'description' => 'Deleted reminder "' . $reminder->title . '" on ' . now()->format('F j, Y'),
+        ]);
+
         $reminder->delete();
         return redirect()->route('reminders.index')->with('success', 'Reminder deleted successfully.');
     }
