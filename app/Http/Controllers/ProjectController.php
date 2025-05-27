@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\User;
+use App\Models\ActivityLog; // <-- Import ActivityLog
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,13 +11,17 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Auth::user()->projects()->withCount(['tasks as to_do_tasks' => function ($query) {
-            $query->where('status', 'to_do');
-        }, 'tasks as in_progress_tasks' => function ($query) {
-            $query->where('status', 'in_progress');
-        }, 'tasks as completed_tasks' => function ($query) {
-            $query->where('status', 'completed');
-        }])->get();
+        $projects = Auth::user()->projects()->withCount([
+            'tasks as to_do_tasks' => function ($query) {
+                $query->where('status', 'to_do');
+            },
+            'tasks as in_progress_tasks' => function ($query) {
+                $query->where('status', 'in_progress');
+            },
+            'tasks as completed_tasks' => function ($query) {
+                $query->where('status', 'completed');
+            }
+        ])->get();
 
         return view('projects.index', compact('projects'));
     }
@@ -37,7 +42,14 @@ class ProjectController extends Controller
             'budget' => 'nullable|numeric',
         ]);
 
-        Auth::user()->projects()->create($request->all());
+        $project = Auth::user()->projects()->create($request->all());
+
+        // Log the creation activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Create Project',
+            'description' => 'Created project "' . $project->name . '" on ' . now()->format('F j, Y'),
+        ]);
 
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
@@ -48,6 +60,7 @@ class ProjectController extends Controller
         $users = User::all();
         return view('projects.show', compact('project', 'teamMembers', 'users'));
     }
+
     public function edit(Project $project)
     {
         return view('projects.edit', compact('project'));
@@ -66,12 +79,27 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
+        // Log the update activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Update Project',
+            'description' => 'Updated project "' . $project->name . '" on ' . now()->format('F j, Y'),
+        ]);
+
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
     public function destroy(Project $project)
     {
+        $projectName = $project->name;
         $project->delete();
+
+        // Log the delete activity
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Delete Project',
+            'description' => 'Deleted project "' . $projectName . '" on ' . now()->format('F j, Y'),
+        ]);
 
         return redirect()->route('projects.index')->with('success', 'Project deleted successfully.');
     }
@@ -84,7 +112,17 @@ class ProjectController extends Controller
         ]);
        
         $project = Project::find($request->project_id);
+        $user = User::find($request->user_id);
+
         $project->teamProjects()->attach($request->user_id);
+
+        // Log the member addition
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'Add Member to Project',
+            'description' => 'Added member "' . $user->name . '" to project "' . $project->name . '" on ' . now()->format('F j, Y'),
+        ]);
+
         return redirect()->back()->with('success', 'User added successfully.');
     }
 }

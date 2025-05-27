@@ -48,13 +48,6 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-                    <div class="mb-3">
-                        <label for="budget" class="form-label">Budget</label>
-                        <input type="number" name="budget" id="budget" class="form-control" step="0.01">
-                        @error('budget')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
                     <button type="submit" class="btn btn-primary">Create Project</button>
                 </form>
             </div>

@@ -27,6 +27,16 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Reminders</h5>
+                        <p class="card-text flex-grow-1">You have <strong>{{ $notesCount }}</strong> reminders saved.</p>
+                        <a href="{{ route('reminders.index') }}" class="btn btn-primary mt-auto">View Reminders</a>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="row mb-4">
             <div class="col-md-6 mb-4">

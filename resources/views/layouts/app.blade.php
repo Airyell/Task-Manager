@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,10 +10,9 @@
     <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 
@@ -22,7 +23,7 @@
             margin: 0;
             overflow: hidden;
             background-color: rgb(241 245 249);
-            font-family: "Noto Sans", sans-serif !important; 
+            font-family: "Noto Sans", sans-serif !important;
         }
 
         .btn {
@@ -106,9 +107,7 @@
     <div class="sidebar d-flex flex-column p-3">
         <h4 class="mb-4 text-center">
             <a href="{{ route('dashboard') }}">
-                <img style=" filter: invert(100%) brightness(200%);"
-                    src="{{ asset('assets/img/logo-circle-horizontal.png') }}" class="img-fluid" width="100%"
-                    alt="task manager">
+                <img style="filter: invert(100%) brightness(200%);" src="{{ asset('assets/img/goalgetter.png') }}" class="img-fluid" width="100%" alt="task manager">
             </a>
         </h4>
         <ul class="nav flex-column">
@@ -117,27 +116,24 @@
                     <i class="bi bi-house-door"></i> Home
                 </a>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link {{ request()->is('mail*') ? 'active' : '' }}" href="{{ route('mail.inbox') }}">
-                    <i class="bi bi-inbox"></i> Inbox
-                </a>
-            </li> --}}
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('projects*') ? 'active' : '' }}"
-                    href="{{ route('projects.index') }}">
+                <a class="nav-link {{ request()->is('projects*') ? 'active' : '' }}" href="{{ route('projects.index') }}">
                     <i class="bi bi-folder"></i> Projects
                 </a>
             </li>
-         
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('notes*') ? 'active' : '' }}" href="{{ route('notes.index') }}">
                     <i class="bi bi-sticky"></i> Notes
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('reminders*') ? 'active' : '' }}"
-                    href="{{ route('reminders.index') }}">
+                <a class="nav-link {{ request()->is('reminders*') ? 'active' : '' }}" href="{{ route('reminders.index') }}">
                     <i class="bi bi-bell"></i> Reminders
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->is('history*') ? 'active' : '' }}" href="{{ route('history.index') }}">
+                    <i class="bi bi-clock-history"></i> History
                 </a>
             </li>
         </ul>
@@ -149,30 +145,27 @@
                     <a class="navbar-brand" href="{{ route('dashboard') }}">
                         <span class="fw-normal" id="currentDateTime"></span>
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
-                        aria-label="Toggle navigation">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
                         <ul class="navbar-nav">
                             @auth
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            {{ Auth::user()->name }}
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="#">History</a></li>
-            <li>
-                <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                    @csrf
-                    <button type="submit" class="dropdown-item">Logout</button>
-                </form>
-            </li>
-        </ul>
-    </li>
-@endauth                                        
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ Auth::user()->name }}
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li><a class="dropdown-item" href="{{ route('history.index') }}">History</a></li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}" id="logout-form">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item">Logout</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            @endauth
                         </ul>
                     </div>
                 </div>
