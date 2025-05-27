@@ -157,6 +157,7 @@
                                         {{ Auth::user()->name }}
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
                                         <li><a class="dropdown-item" href="{{ route('history.index') }}">History</a></li>
                                         <li>
                                             <form method="POST" action="{{ route('logout') }}" id="logout-form">
