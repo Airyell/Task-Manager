@@ -133,12 +133,7 @@
                     <i class="bi bi-check2-square"></i> Tasks
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('routines*') ? 'active' : '' }}"
-                    href="{{ route('routines.index') }}">
-                    <i class="bi bi-calendar-check"></i> Routines
-                </a>
-            </li>
+         
             <li class="nav-item">
                 <a class="nav-link {{ request()->is('notes*') ? 'active' : '' }}" href="{{ route('notes.index') }}">
                     <i class="bi bi-sticky"></i> Notes
@@ -148,11 +143,6 @@
                 <a class="nav-link {{ request()->is('reminders*') ? 'active' : '' }}"
                     href="{{ route('reminders.index') }}">
                     <i class="bi bi-bell"></i> Reminders
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('files*') ? 'active' : '' }}" href="{{ route('files.index') }}">
-                    <i class="bi bi-file"></i> Files
                 </a>
             </li>
         </ul>
@@ -178,7 +168,7 @@
             {{ Auth::user()->name }}
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-            <li><a class="dropdown-item" href="#">Settings</a></li>
+            <li><a class="dropdown-item" href="#">History</a></li>
             <li>
                 <form method="POST" action="{{ route('logout') }}" id="logout-form">
                     @csrf
