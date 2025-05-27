@@ -82,16 +82,22 @@
                             style="padding-top: 0.5rem; padding-bottom: 0.5rem;">+</button>
                     </div>
                     
-                    <div class="kanban-list" id="in_progress">
-                        @foreach ($tasks['in_progress'] ?? [] as $task)
-                            <div class="card mb-3 kanban-item" data-id="{{ $task->id }}" draggable="true">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $task->title }}</h5>
-                                    <p class="card-text">{{ $task->description }}</p>
-                                    
-                                </div>
-                            </div>
-                        @endforeach
+                    @foreach ($tasks['in_progress'] ?? [] as $task)
+    <div class="card mb-3 kanban-item" data-id="{{ $task->id }}" draggable="true">
+        <div class="card-body">
+            <h5 class="card-title">{{ $task->title }}</h5>
+            <p class="card-text">{{ $task->description }}</p>
+            <div class="d-flex justify-content-end gap-2">
+                <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
+
                     </div>
                 </div>
             </div>
@@ -105,14 +111,20 @@
                     </div>
                     <div class="kanban-list" id="completed">
                         @foreach ($tasks['completed'] ?? [] as $task)
-                            <div class="card mb-3 kanban-item" data-id="{{ $task->id }}" draggable="true">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ $task->title }}</h5>
-                                    <p class="card-text">{{ $task->description }}</p>
-                                    
-                                </div>
-                            </div>
-                        @endforeach
+    <div class="card mb-3 kanban-item" data-id="{{ $task->id }}" draggable="true">
+        <div class="card-body">
+            <h5 class="card-title">{{ $task->title }}</h5>
+            <p class="card-text">{{ $task->description }}</p>
+            <div class="d-flex justify-content-end gap-2">
+                <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+@endforeach
                     </div>
                 </div>
             </div>
