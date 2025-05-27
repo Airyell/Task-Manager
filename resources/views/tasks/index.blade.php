@@ -50,13 +50,22 @@
                         @foreach ($tasks['to_do'] ?? [] as $task)
                             <div class="card mb-3 kanban-item" data-id="{{ $task->id }}" draggable="true">
                                 <div class="card-body">
-                                    <h5 class="card-title">
-                                        {{ $task->title }} 
-                                        <span style="font-size: 12px;" class="badge {{ $task->priority == 'low' ? 'bg-success' : ($task->priority == 'medium' ? 'bg-warning' : 'bg-danger') }}">{{ ucfirst($task->priority) }}</span>
-                                    </h5>
-                                    
-                                    <p class="card-text">{{ $task->description }}</p>
-                                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-primary btn-sm"><i class="bi bi-eye"></i></a>
+                                    <h5 class="card-title d-flex justify-content-between">
+    <span>{{ $task->title }}</span>
+    <span class="badge {{ $task->priority == 'low' ? 'bg-success' : ($task->priority == 'medium' ? 'bg-warning' : 'bg-danger') }}">
+        {{ ucfirst($task->priority) }}
+    </span>
+</h5>
+<p class="card-text">{{ $task->description }}</p>
+
+<div class="d-flex justify-content-end gap-2">
+    <!-- Delete Form -->
+    <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+    </form>
+</div>
                                 </div>
                             </div>
                         @endforeach
@@ -79,7 +88,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $task->title }}</h5>
                                     <p class="card-text">{{ $task->description }}</p>
-                                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-warning btn-sm"><i class="bi bi-eye"></i></a>
+                                    
                                 </div>
                             </div>
                         @endforeach
@@ -100,7 +109,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ $task->title }}</h5>
                                     <p class="card-text">{{ $task->description }}</p>
-                                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-success btn-sm"><i class="bi bi-eye"></i></a>
+                                    
                                 </div>
                             </div>
                         @endforeach

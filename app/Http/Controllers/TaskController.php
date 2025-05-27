@@ -35,19 +35,27 @@ class TaskController extends Controller
         return view('tasks.show', compact('task'));
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, Project $project, Task $task)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'due_date' => 'nullable|date',
             'priority' => 'required|in:low,medium,high',
-            'status' => 'required|in:to_do,in_progress,completed',
+            // Add other validation if needed
         ]);
 
-        $task->update($request->all());
+        $task->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'due_date' => $request->due_date,
+            'priority' => $request->priority,
+            'user_id' => $request->user_id ?? auth()->id(),
+            'status' => $request->status ?? 'to_do',
+        ]);
 
-        return redirect()->route('projects.tasks.index', $task->project_id)->with('success', 'Task updated successfully.');
+        return redirect()->route('projects.show', $project)
+            ->with('success', 'Task updated successfully.');
     }
 
     public function updateStatus(Request $request, Task $task)
@@ -56,5 +64,12 @@ class TaskController extends Controller
         $task->save();
 
         return response()->json(['message' => 'Task status updated successfully.']);
+    }
+
+    public function destroy(Project $project, Task $task)
+    {
+        $task->delete();
+
+        return redirect()->route('projects.tasks.index', $project->id)->with('success', 'Task deleted successfully.');
     }
 }
