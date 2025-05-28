@@ -101,7 +101,7 @@
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">Completed Tasks</h5>
                         <p class="card-text flex-grow-1">You have <strong>{{ $completedTasksCount }}</strong> Completed Tasks Saved.</p>
-                        <a href="{{ route('reminders.index') }}" class="btn btn-primary mt-auto">View Tasks</a>
+                        <a href="{{ route('projects.index') }}" class="btn btn-primary mt-auto">View Tasks</a>
                     </div>
                 </div>
             </div>
