@@ -31,7 +31,7 @@ class TaskController extends Controller
 
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Created Task',
+            'action' => 'Created Task: ' . $task->title,
             'description' => 'Created task "' . $task->title . '" on ' . now()->format('F j, Y h:i A'),
         ]);
 
@@ -57,7 +57,7 @@ class TaskController extends Controller
 
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Updated Task',
+            'action' => 'Updated Task: ' . $task->title,
             'description' => 'Updated task "' . $task->title . '" on ' . now()->format('F j, Y h:i A'),
         ]);
 
@@ -73,19 +73,20 @@ class TaskController extends Controller
             $task->status = $newStatus;
             $task->save();
 
-            // Set action and description based on new status
+            $title = $task->title;
+            $timestamp = now()->format('F j, Y h:i A');
             $action = '';
             $description = '';
 
             if ($newStatus === 'in_progress') {
-                $action = 'Started Task';
-                $description = 'Started working on "' . $task->title . '" on ' . now()->format('F j, Y h:i A');
+                $action = 'Started Task: ' . $title;
+                $description = 'Started working on task "' . $title . '" on ' . $timestamp;
             } elseif ($newStatus === 'completed') {
-                $action = 'Completed Task';
-                $description = 'Completed the task "' . $task->title . '" on ' . now()->format('F j, Y h:i A');
+                $action = 'Completed Task: ' . $title;
+                $description = 'Completed the task "' . $title . '" on ' . $timestamp;
             } else {
-                $action = 'Moved Task';
-                $description = 'Moved "' . $task->title . '" to ' . $newStatus . ' on ' . now()->format('F j, Y h:i A');
+                $action = 'Moved Task: ' . $title;
+                $description = 'Moved task "' . $title . '" to "' . $newStatus . '" on ' . $timestamp;
             }
 
             ActivityLog::create([
@@ -102,7 +103,7 @@ class TaskController extends Controller
     {
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Deleted Task',
+            'action' => 'Deleted Task: ' . $task->title,
             'description' => 'Deleted task "' . $task->title . '" on ' . now()->format('F j, Y h:i A'),
         ]);
 
