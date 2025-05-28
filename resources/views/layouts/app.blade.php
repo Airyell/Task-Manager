@@ -108,7 +108,7 @@
     <div class="sidebar d-flex flex-column p-3">
         <h4 class="mb-4 text-center">
             <a href="{{ route('dashboard') }}">
-                <img style="filter: invert(100%) brightness(200%);" src="{{ asset('assets/img/goalgetter.png') }}" class="img-fluid" width="100%" alt="task manager">
+                <img src="{{ asset('assets/img/taskaroo-removebg.png') }}" class="img-fluid" width="100%" alt="task manager">
             </a>
         </h4>
         <ul class="nav flex-column">
