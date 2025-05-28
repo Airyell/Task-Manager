@@ -34,7 +34,7 @@ class NoteController extends Controller
         // ✅ Log create note activity
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Create Note',
+            'action' => 'Created Note',
             'description' => 'Created note "' . $note->title . '" on ' . now()->format('F j, Y'),
         ]);
 
@@ -60,7 +60,7 @@ class NoteController extends Controller
         // ✅ Log update note activity
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Update Note',
+            'action' => 'Updated Note',
             'description' => 'Updated note "' . $note->title . '" on ' . now()->format('F j, Y'),
         ]);
 
@@ -72,7 +72,7 @@ class NoteController extends Controller
         // ✅ Log delete note activity
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Delete Note',
+            'action' => 'Deleted Note',
             'description' => 'Deleted note "' . $note->title . '" on ' . now()->format('F j, Y'),
         ]);
 

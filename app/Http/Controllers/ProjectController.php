@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\User;
-use App\Models\ActivityLog; // <-- Import ActivityLog
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,12 +43,21 @@ class ProjectController extends Controller
             'budget' => 'nullable|numeric',
         ]);
 
-        $project = Auth::user()->projects()->create($request->all());
+        $data = $request->except(['_token']);
 
-        // Log the creation activity
+        if (!empty($data['start_date'])) {
+            $data['start_date'] = date('Y-m-d', strtotime($data['start_date']));
+        }
+
+        if (!empty($data['end_date'])) {
+            $data['end_date'] = date('Y-m-d', strtotime($data['end_date']));
+        }
+
+        $project = Auth::user()->projects()->create($data);
+
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Create Project',
+            'action' => 'Created Project',
             'description' => 'Created project "' . $project->name . '" on ' . now()->format('F j, Y'),
         ]);
 
@@ -58,6 +68,7 @@ class ProjectController extends Controller
     {
         $teamMembers = $project->users()->get();
         $users = User::all();
+
         return view('projects.show', compact('project', 'teamMembers', 'users'));
     }
 
@@ -77,12 +88,21 @@ class ProjectController extends Controller
             'budget' => 'nullable|numeric',
         ]);
 
-        $project->update($request->all());
+        $data = $request->except(['_token']);
 
-        // Log the update activity
+        if (!empty($data['start_date'])) {
+            $data['start_date'] = date('Y-m-d', strtotime($data['start_date']));
+        }
+
+        if (!empty($data['end_date'])) {
+            $data['end_date'] = date('Y-m-d', strtotime($data['end_date']));
+        }
+
+        $project->update($data);
+
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Update Project',
+            'action' => 'Project Updated',
             'description' => 'Updated project "' . $project->name . '" on ' . now()->format('F j, Y'),
         ]);
 
@@ -94,10 +114,9 @@ class ProjectController extends Controller
         $projectName = $project->name;
         $project->delete();
 
-        // Log the delete activity
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Delete Project',
+            'action' => 'Project Deleted',
             'description' => 'Deleted project "' . $projectName . '" on ' . now()->format('F j, Y'),
         ]);
 
@@ -110,13 +129,12 @@ class ProjectController extends Controller
             'project_id' => 'required|exists:projects,id',
             'user_id' => 'required|exists:users,id',
         ]);
-       
+
         $project = Project::find($request->project_id);
         $user = User::find($request->user_id);
 
         $project->teamProjects()->attach($request->user_id);
 
-        // Log the member addition
         ActivityLog::create([
             'user_id' => Auth::id(),
             'action' => 'Add Member to Project',

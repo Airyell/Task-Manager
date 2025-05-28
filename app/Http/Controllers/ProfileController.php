@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use App\Models\ActivityLog;
 
 class ProfileController extends Controller
 {
+    // Show profile overview page (this is the added method)
+    public function show()
+    {
+        $user = auth()->user();
+        return view('profile.show', compact('user'));
+    }
+
     // Show profile overview page (optional)
     public function index()
     {
@@ -49,7 +57,13 @@ class ProfileController extends Controller
         // Save changes to the database
         $user->save();
 
+        // Log the profile update action
+        ActivityLog::create([
+            'user_id' => $user->id,
+            'action' => 'Updated User Profile',
+        ]);
+
         // Redirect back to profile overview with success message
-        return redirect()->route('profile.index')->with('success', 'Profile updated successfully.');
+        return redirect()->route('profile.show')->with('status', 'Profile updated successfully.');
     }
 }

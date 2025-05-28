@@ -1,7 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
+    @if (session('status'))
+        <div class="alert alert-success mb-3 py-1">
+            <span class="small">{{ session('status') }}</span>
+        </div>
+    @endif
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <!-- User Profile -->
@@ -12,14 +19,7 @@
                 </div>
 
                 <div class="card-body pb-0 pt-0">
-                    @if (session('status'))
-                        <div class="alert alert-success mb-0 mt-3">
-                            <strong>{{ session('status') }}</strong>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
+                    {{-- You can put something here if needed --}}
                 </div>
 
                 <div class="card-body">
@@ -47,4 +47,5 @@
         </div>
     </div>
 </div>
+
 @endsection

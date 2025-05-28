@@ -30,14 +30,13 @@
     <div class="container">
         <div class="bg-white align-items-center mb-4 shadow-sm p-3 rounded">
             <h2 class="text-center">{{ $project->name }} - Tasks</h2>
-        </div>
-
-        @if (session('success'))
+              @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
 
+        </div>
         <div class="row">
             <!-- To Do Column -->
             <div class="col-md-4 mb-4">
