@@ -77,9 +77,7 @@
                 <div class="kanban-column">
                     <div class="d-flex justify-content-between shadow-sm align-items-center bg-warning px-3 py-2 rounded-top">
                         <h4 class="text-white fw-bolder m-0">In Progress</h4>
-                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
-                            data-bs-target="#createTaskModal" data-status="in_progress"
-                            style="padding-top: 0.5rem; padding-bottom: 0.5rem;">+</button>
+                        
                     </div>
                     <div class="kanban-list" id="in_progress">
                         @foreach ($tasks['in_progress'] ?? [] as $task)
@@ -111,8 +109,6 @@
                 <div class="kanban-column">
                     <div class="d-flex justify-content-between shadow-sm align-items-center bg-success px-3 py-2 rounded-top">
                         <h4 class="text-white fw-bolder m-0">Completed</h4>
-                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
-                            data-bs-target="#createTaskModal" data-status="completed" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">+</button>
                     </div>
                     <div class="kanban-list" id="completed">
                         @foreach ($tasks['completed'] ?? [] as $task)

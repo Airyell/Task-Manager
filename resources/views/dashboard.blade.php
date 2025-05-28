@@ -116,7 +116,14 @@
                             @foreach($recentTasks as $task)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {{ $task->title }}
-                                    <span class="badge bg-primary rounded-pill">{{ $task->status == 'to_do' ? 'To Do' : 'In Progress' }}</span>
+                                    <span class="badge 
+{{ $task->status == 'to_do' ? 'bg-primary' : ($task->status == 'in_progress' ? 'bg-warning text-dark' : 'bg-success') }} 
+    rounded-pill">
+    {{ 
+        $task->status == 'to_do' ? 'To Do' : 
+        ($task->status == 'in_progress' ? 'In Progress' : 'Completed') 
+    }}
+</span>
                                 </li>
                             @endforeach
                         </ul>
