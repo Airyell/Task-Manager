@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container vh-90 d-flex justify-content-center align-items-center">
+<div class="container d-flex justify-content-center align-items-start" style="min-height: 100vh; padding-top: 80px;">
     <div class="col-md-8">
 
         <form class="card w-100" method="POST" action="{{ route('profile.update') }}">
