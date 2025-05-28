@@ -1,198 +1,219 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> @yield('title') | Task Manager </title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@yield('title') | Task Manager</title>
 
-    <style>
-        body {
-            display: flex;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-            background-color: rgb(241 245 249);
-            font-family: "Noto Sans", sans-serif !important;
-        }
+  <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        .btn {
-            padding: .25rem .5rem !important;
-            font-size: .875rem !important;
-        }
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      background: #fdf1e5;
+      font-family: "Noto Sans", sans-serif !important;
+    }
 
-        .sidebar {
-            width: 250px;
-            background-color: #343a40;
-            color: white;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-        }
+    .btn {
+      padding: .4rem 1rem !important;
+      font-size: 0.875rem !important;
+      border-radius: 999px !important;
+    }
 
-        .sidebar .nav-link {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #495057;
-        }
+    .sidebar {
+      width: 250px;
+      background-color: #0b2c48;
+      color: #ffffff;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            background-color: #495057;
-            border-radius: 0.25rem;
-        }
+    .sidebar .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: background 0.2s ease;
+    }
 
-        .sidebar .nav-link .bi {
-            margin-right: 10px;
-        }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
 
-        .content {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
+    .sidebar .nav-link .bi {
+      margin-right: 10px;
+    }
 
-        .topnav {
-            flex-shrink: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-        }
+    .content {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
 
-        .navbar-brand {
-            font-weight: bold;
-            color: #343a40;
-        }
+    .topnav {
+      flex-shrink: 0;
+      width: 100%;
+      background-color: #0b2c48;
+      color: white;
+      box-shadow: 0 .25rem .5rem rgba(0, 0, 0, .1);
+    }
 
-        .navbar-nav .nav-link {
-            color: #343a40;
-        }
+    .navbar-brand,
+    .navbar-nav .nav-link {
+      color: white !important;
+    }
 
-        .navbar-nav .nav-link:hover {
-            color: #007bff;
-        }
+    .navbar-nav .nav-link:hover {
+      color: #ff914d !important;
+    }
 
-        .card {
-            border: none;
-            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-        }
+    .card {
+      border: none;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .1);
+      border-radius: 1.25rem;
+    }
 
-        footer {
-            background-color: #ffffff;
-            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
-            flex-shrink: 0;
-        }
+    footer {
+      background-color: #0b2c48;
+      color: white;
+      text-align: center;
+      font-size: 0.875rem;
+      box-shadow: 0 -2px 6px rgba(0, 0, 0, .05);
+    }
 
-        main {
-            flex-grow: 1;
-        }
-    </style>
+    main {
+      flex-grow: 1;
+    }
+
+    a {
+      color: #ff914d;
+    }
+
+    a:hover {
+      color: #e5742f;
+    }
+  </style>
 </head>
 
 <body>
+  @if (!Request::is('register'))
     <div class="sidebar d-flex flex-column p-3">
-        <h4 class="mb-4 text-center">
-            <a href="{{ route('dashboard') }}">
-                <img src="{{ asset('assets/img/taskaroo-removebg.png') }}" class="img-fluid" width="100%" alt="task manager">
+      <h4 class="mb-4 text-center">
+        <a href="{{ route('dashboard') }}">
+          <img src="{{ asset('assets/img/taskaroo-removebg.png') }}" class="img-fluid" width="100%" alt="task manager">
+        </a>
+      </h4>
+      <ul class="nav flex-column">
+        <li class="nav-item">
+          <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+            <i class="bi bi-house-door"></i> Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->is('projects*') ? 'active' : '' }}" href="{{ route('projects.index') }}">
+            <i class="bi bi-folder"></i> Projects
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->is('notes*') ? 'active' : '' }}" href="{{ route('notes.index') }}">
+            <i class="bi bi-sticky"></i> Notes
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {{ request()->is('history*') ? 'active' : '' }}" href="{{ route('history.index') }}">
+            <i class="bi bi-clock-history"></i> History
+          </a>
+        </li>
+      </ul>
+    </div>
+  @endif
+
+  <div class="content d-flex flex-column">
+    @if (!Request::is('register'))
+      <header class="topnav mb-4">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('dashboard') }}">
+              <span class="fw-normal" id="currentDateTime"></span>
             </a>
-        </h4>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                    <i class="bi bi-house-door"></i> Home
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('projects*') ? 'active' : '' }}" href="{{ route('projects.index') }}">
-                    <i class="bi bi-folder"></i> Projects
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('notes*') ? 'active' : '' }}" href="{{ route('notes.index') }}">
-                    <i class="bi bi-sticky"></i> Notes
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link {{ request()->is('history*') ? 'active' : '' }}" href="{{ route('history.index') }}">
-                    <i class="bi bi-clock-history"></i> History
-                </a>
-            </li>
-        </ul>
-    </div>
-    <div class="content d-flex flex-column">
-        <header class="topnav mb-4">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ route('dashboard') }}">
-                        <span class="fw-normal" id="currentDateTime"></span>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-                        <ul class="navbar-nav">
-                            @auth
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ Auth::user()->name }}
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                        <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('history.index') }}">History</a></li>
-                                        <li>
-                                            <form method="POST" action="{{ route('logout') }}" id="logout-form">
-                                                @csrf
-                                                <button type="submit" class="dropdown-item">Logout</button>
-                                            </form>
-                                        </li>
-                                    </ul>
-                                </li>
-                            @endauth
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <main>
-            @yield('content')
-        </main>
-        <footer class="mt-auto py-3 text-center">
-            <div class="container">
-                <span class="text-muted">&copy; Copyright All Rights Reserved 2025 by: Nikol and friends</span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
+              aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                @auth
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ Auth::user()->name }}
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{{ route('profile.index') }}">Profile</a></li>
+                    <li><a class="dropdown-item" href="{{ route('history.index') }}">History</a></li>
+                    <li>
+                      <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">Logout</button>
+                      </form>
+                    </li>
+                  </ul>
+                </li>
+                @endauth
+              </ul>
             </div>
-        </footer>
-    </div>
+          </div>
+        </nav>
+      </header>
+    @endif
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function updateDateTime() {
-            const now = new Date();
-            const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const day = dayNames[now.getDay()];
-            const date = now.toLocaleDateString(['en-US'], { day: 'numeric', month: 'long', year: 'numeric' });
-            const time = now.toLocaleTimeString();
+    <main class="px-4">
+      @yield('content')
+    </main>
 
-            document.getElementById('currentDateTime').innerText = `${day}, ${date}  ${time}`;
-        }
+    @if (!Request::is('register'))
+      <footer class="mt-auto py-3">
+        <div class="container">
+          <span>&copy; 2025 Nikol and Friends. All rights reserved.</span>
+        </div>
+      </footer>
+    @endif
+  </div>
 
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function updateDateTime() {
+      const now = new Date();
+      const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      const day = dayNames[now.getDay()];
+      const date = now.toLocaleDateString(['en-US'], { day: 'numeric', month: 'long', year: 'numeric' });
+      const time = now.toLocaleTimeString();
+      document.getElementById('currentDateTime').innerText = `${day}, ${date}  ${time}`;
+    }
+
+    updateDateTime();
+    setInterval(updateDateTime, 1000);
+  </script>
 </body>
 
 </html>
