@@ -128,11 +128,6 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->is('reminders*') ? 'active' : '' }}" href="{{ route('reminders.index') }}">
-                    <i class="bi bi-bell"></i> Reminders
-                </a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link {{ request()->is('history*') ? 'active' : '' }}" href="{{ route('history.index') }}">
                     <i class="bi bi-clock-history"></i> History
                 </a>

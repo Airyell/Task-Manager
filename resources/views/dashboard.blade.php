@@ -99,9 +99,9 @@
             <div class="col-md-4 mb-3">
                 <div class="card shadow-sm h-100">
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">Reminders</h5>
-                        <p class="card-text flex-grow-1">You have <strong>{{ $remindersCount }}</strong> reminders saved.</p>
-                        <a href="{{ route('reminders.index') }}" class="btn btn-primary mt-auto">View Reminders</a>
+                        <h5 class="card-title">Completed Tasks</h5>
+                        <p class="card-text flex-grow-1">You have <strong>{{ $completedTasksCount }}</strong> Completed Tasks Saved.</p>
+                        <a href="{{ route('reminders.index') }}" class="btn btn-primary mt-auto">View Tasks</a>
                     </div>
                 </div>
             </div>
@@ -132,23 +132,6 @@
                             @foreach($recentNotes as $note)
                                 <li class="list-group-item">
                                     {{ $note->title }}
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Upcoming Reminders</h5>
-                        <ul class="list-group">
-                            @foreach($upcomingReminders as $reminder)
-                                <li class="list-group-item d-flex justify-content-between align-items-center 
-                                    {{ $reminder->date->isToday() ? 'bg-warning' : ($reminder->date->isPast() ? 'bg-danger text-white' : 'bg-success text-white') }}">
-                                    {{ $reminder->title }}
-                                    <span class="badge bg-light text-dark rounded-pill">{{ $reminder->date->format('M d') }} {{ $reminder->time ? $reminder->time->format('H:i') : '' }}</span>
                                 </li>
                             @endforeach
                         </ul>

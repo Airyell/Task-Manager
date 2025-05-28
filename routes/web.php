@@ -5,7 +5,6 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectFileController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\RoutineController;
 use App\Http\Controllers\TaskController;
@@ -69,7 +68,8 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard Route (Home Page)
     Route::get('/', function () {
         $user = Auth::user();
-        $tasksCount = $user->tasks()->count();
+        $tasksCount = $user->tasks()->where('status', '!=', 'completed')->count();
+    $completedTasksCount = $user->tasks()->where('status', 'completed')->count(); // ✅ Added line
         $routinesCount = $user->routines()->count();
         $notesCount = $user->notes()->count();
         $remindersCount = $user->reminders()->count();
@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
 
         return view('dashboard', compact(
             'tasksCount',
+            'completedTasksCount',
             'routinesCount',
             'notesCount',
             'remindersCount',
