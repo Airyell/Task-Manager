@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller; // This is redundant if ProfileController e
 
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as Image;
-use Aliabdulaziz\LaravelExtendedUser\Requests\UpdateUserProfile;
+use App\Http\Controllers\UpdateUserProfile;
 
 
 class ProfileController extends Controller

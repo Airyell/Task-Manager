@@ -1,4 +1,4 @@
-@extends('laravelextendeduser::layouts.app')
+@extends('layouts.app')
 &nbsp;
 &nbsp;
 
@@ -28,7 +28,7 @@
 &nbsp;
 &nbsp;
 
-                @if(config('laravelextendeduser.profile.avatar') !== false)
+                @if(config('Task-Manager.profile.avatar') !== false)
                 <div class="card-body border-bottom">
                     <div class="user-profile-image">
                         <img src="{{ url($user->image) }}" alt="User Image">
@@ -69,7 +69,7 @@
 &nbsp;
 &nbsp;
 
-                @if(config('laravelextendeduser.profile.contact') !== false)
+                @if(config('Task-Manager.profile.contact') !== false)
                 <div class="card-header border-top">
                     <h5 class="float-left mb-0 mt-1">Contact</h5>
                 </div>
@@ -109,7 +109,7 @@
 &nbsp;
 &nbsp;
 
-                @if(config('laravelextendeduser.profile.address') !== false)
+                @if(config('Task-Manager.profile.address') !== false)
                 <div class="card-header border-top">
                     <h5 class="float-left mb-0 mt-1">Address</h5>
                 </div>

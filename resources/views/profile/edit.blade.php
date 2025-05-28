@@ -1,6 +1,4 @@
 @extends('layouts.app')
-&nbsp;
-&nbsp;
 
 @section('content')
 <div class="container">
@@ -10,18 +8,10 @@
             <form class="card user-profile" method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-&nbsp;
-&nbsp;
 
                 <div class="card-header">
-                    <h4 class="float-left mb-0 mt-2">User Profile</h4>
-                    <div class="btn-group float-right text-uppercase" role="group">
-                        <a href="{{ route('profile.index') }}" class="btn btn-secondary btn-100">Cancel</a>
-                        <button type="button" class="btn btn-success btn-100 text-uppercase" onclick="submitForm(event)">Save</button>
-                    </div>
+                    <h4 class="mb-0 mt-2">User Profile</h4>
                 </div>
-&nbsp;
-&nbsp;
 
                 <div class="card-body pb-0 pt-0">
                     @if ($errors->any())
@@ -35,8 +25,6 @@
                         </div>
                     @endif
                 </div>
-&nbsp;
-&nbsp;
 
                 @if(config('Task-Manager.profile.avatar') !== false)
                 <div class="card-body border-bottom">
@@ -58,16 +46,12 @@
                     @endif
                 </div>
                 @endif
-&nbsp;
-&nbsp;
 
                 <div class="card-header">
                     <h5 class="float-left mb-0 mt-1 w-100 text-center">
                         <span class="text-info">{{ $user->email }}</span> <small class="text-muted font-italic">(Private)</small>
                     </h5>
                 </div>
-&nbsp;
-&nbsp;
 
                 <div class="card-body">
                     <div class="form-group row pt-3">
@@ -89,8 +73,6 @@
                         </div>
                     </div>
                 </div>
-&nbsp;
-&nbsp;
 
                 @if(config('Task-Manager.profile.contact') !== false)
                 <div class="card-header border-top">
@@ -136,8 +118,6 @@
                     </div>
                 </div>
                 @endif
-&nbsp;
-&nbsp;
 
                 @if(config('Task-Manager.profile.address') !== false)
                 <div class="card-header border-top">
@@ -185,8 +165,6 @@
                     </div>
                 </div>
                 @endif
-&nbsp;
-&nbsp;
 
                 <div class="card-footer">
                     <div class="btn-group float-right text-uppercase" role="group">
@@ -196,8 +174,6 @@
                 </div>
             </form>
             <!-- /User Profile -->
-&nbsp;
-&nbsp;
 
             @if(config('Task-Manager.profile.avatar') !== false)
             <!-- Remove User Profile Image -->
@@ -211,8 +187,6 @@
     </div>
 </div>
 @endsection
-&nbsp;
-&nbsp;
 
 @section('script')
 <script>
@@ -220,21 +194,12 @@
         let form = $(event.target).closest('form')[0];
         form.submit();
     }
-&nbsp;
-&nbsp;
 
     function addNewField(event, name, multiFields = false) {
         let parent = $(event.target).closest('.dynamic-form-fields');
         let fields = parent.find('.dynamic-form-field');
-&nbsp;
-&nbsp;
-
-        // Organize indexes
         let counter = fields.length;
-&nbsp;
-&nbsp;
 
-        // Append new field
         let content = multiFields ? 
             `<div class="form-group row dynamic-form-field">
                 <label class="col-sm-4 col-form-label text-sm-right"></label>
@@ -257,22 +222,16 @@
                     <button type="button" class="btn btn-danger remove-field-button" onclick="deleteField(event)">-</button>
                 </div>
             </div>`;
-&nbsp;
-&nbsp;
 
         parent.append(content);
     }
-&nbsp;
-&nbsp;
 
     function deleteField(event) {
         $(event.target).closest('.dynamic-form-field').remove();
     }
-&nbsp;
-&nbsp;
 
     function removeUserProfileImage() {
-        $('#remove-user-image-form').submit();
+        document.getElementById('remove-user-image-form').submit();
     }
 </script>
 @endsection
