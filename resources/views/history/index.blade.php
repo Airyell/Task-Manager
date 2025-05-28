@@ -1,25 +1,26 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>User Activity History</h2>
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">🕘 Activity History</h2>
 
     @if($activities->isEmpty())
-        <p>No activity found.</p>
+        <div class="text-center text-gray-500">No activities found.</div>
     @else
-        <ul class="list-group">
-            @foreach($activities as $activity)
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>
-                        <strong>{{ $activity->action }}</strong> on {{ $activity->model_name }} at {{ $activity->created_at->format('Y-m-d H:i:s') }}
-                    </span>
-                    <form action="{{ route('history.destroy', $activity->id) }}" method="POST" onsubmit="return confirm('Delete this activity permanently?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" title="Delete">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
+        <ul class="space-y-4">
+            @foreach ($activities as $activity)
+                <li class="p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="text-gray-700 font-medium">
+                            {{ $activity->description }}
+                        </span>
+                        <span class="text-sm text-gray-500">
+                            {{ $activity->created_at->format('M d, Y - h:i A') }}
+                        </span>
+                    </div>
+                    <div class="text-sm text-gray-400">
+                        Action: <span class="italic">{{ $activity->action }}</span>
+                    </div>
                 </li>
             @endforeach
         </ul>
