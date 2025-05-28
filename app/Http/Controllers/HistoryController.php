@@ -35,4 +35,13 @@ class HistoryController extends Controller
 
         return redirect()->back()->with('success', 'Activity deleted successfully.');
     }
+
+    // Helper to log user activity
+    public static function logActivity($action)
+    {
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => $action,
+        ]);
+    }
 }

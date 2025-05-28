@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\ActivityLog;  // Import ActivityLog
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,11 +29,10 @@ class TaskController extends Controller
 
         $task = $project->tasks()->create($request->all());
 
-        // ✅ Log create task activity
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Create Task',
-            'description' => 'Created task "' . $task->title . '" on ' . now()->format('F j, Y'),
+            'action' => 'Created Task',
+            'description' => 'Created task "' . $task->title . '" on ' . now()->format('F j, Y h:i A'),
         ]);
 
         return redirect()->route('projects.tasks.index', $project)->with('success', 'Task created successfully.');
@@ -56,11 +55,10 @@ class TaskController extends Controller
 
         $task->update($request->all());
 
-        // ✅ Log update task activity
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Update Task',
-            'description' => 'Updated task "' . $task->title . '" on ' . now()->format('F j, Y'),
+            'action' => 'Updated Task',
+            'description' => 'Updated task "' . $task->title . '" on ' . now()->format('F j, Y h:i A'),
         ]);
 
         return redirect()->route('projects.tasks.index', $task->project_id)->with('success', 'Task updated successfully.');
@@ -68,28 +66,44 @@ class TaskController extends Controller
 
     public function updateStatus(Request $request, Task $task)
     {
-        $task->status = $request->input('status');
-        $task->save();
+        $oldStatus = $task->status;
+        $newStatus = $request->input('status');
 
-        // Optional: log status update
-        /*
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'Update Task Status',
-            'description' => 'Updated status of task "' . $task->title . '" to ' . $task->status . ' on ' . now()->format('F j, Y'),
-        ]);
-        */
+        if ($oldStatus !== $newStatus) {
+            $task->status = $newStatus;
+            $task->save();
+
+            // Set action and description based on new status
+            $action = '';
+            $description = '';
+
+            if ($newStatus === 'in_progress') {
+                $action = 'Started Task';
+                $description = 'Started working on "' . $task->title . '" on ' . now()->format('F j, Y h:i A');
+            } elseif ($newStatus === 'completed') {
+                $action = 'Completed Task';
+                $description = 'Completed the task "' . $task->title . '" on ' . now()->format('F j, Y h:i A');
+            } else {
+                $action = 'Moved Task';
+                $description = 'Moved "' . $task->title . '" to ' . $newStatus . ' on ' . now()->format('F j, Y h:i A');
+            }
+
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => $action,
+                'description' => $description,
+            ]);
+        }
 
         return response()->json(['message' => 'Task status updated successfully.']);
     }
 
     public function destroy(Project $project, Task $task)
     {
-        // ✅ Log delete task activity before deletion
         ActivityLog::create([
             'user_id' => Auth::id(),
-            'action' => 'Delete Task',
-            'description' => 'Deleted task "' . $task->title . '" on ' . now()->format('F j, Y'),
+            'action' => 'Deleted Task',
+            'description' => 'Deleted task "' . $task->title . '" on ' . now()->format('F j, Y h:i A'),
         ]);
 
         $task->delete();
