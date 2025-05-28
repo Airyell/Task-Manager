@@ -6,15 +6,8 @@
 
     <div style="border: 1px solid #ccc; padding: 20px; border-radius: 10px;">
         <p><strong>Name:</strong> {{ $user->name }}</p>
+        <p><strong>Username:</strong> {{ $user->username }}</p>
         <p><strong>Email:</strong> {{ $user->email }}</p>
-
-        <p><strong>Image:</strong>
-            @if ($user->image)
-                <img src="{{ asset('storage/' . $user->image) }}" alt="User Image" style="width: 120px; border-radius: 10px; display: block; margin-top: 10px;">
-            @else
-                <span>No image uploaded.</span>
-            @endif
-        </p>
 
         @if ($user->profile && isset($user->profile['bio']))
             <p><strong>Bio:</strong> {{ $user->profile['bio'] }}</p>
