@@ -2,29 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title') | Task Manager</title>
-    <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet" />
 
     <style>
         body {
             margin: 0;
             background-color: rgb(241 245 249);
             font-family: "Noto Sans", sans-serif !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .wrapper {
             display: flex;
-            flex-direction: row;
-            height: 100vh;
+            flex: 1;
             overflow: hidden;
         }
 
@@ -58,22 +60,28 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            overflow-y: auto;
+            min-height: 100vh;
         }
 
         .topnav {
             background-color: #ffffff;
-            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
         }
 
         .card {
             border: none;
-            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+        }
+
+        main {
+            flex: 1;
+            overflow-y: auto;
         }
 
         footer {
             background-color: #ffffff;
-            box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075) !important;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+            flex-shrink: 0;
         }
 
         .sidebar-toggle {
@@ -108,7 +116,7 @@
         <nav class="sidebar" id="sidebar">
             <div class="text-center p-3">
                 <a href="{{ route('dashboard') }}">
-                    <img src="{{ asset('assets/img/taskaroo-removebg.png') }}" class="img-fluid" width="100%" alt="task manager">
+                    <img src="{{ asset('assets/img/taskaroo-removebg.png') }}" class="img-fluid" width="100%" alt="task manager" />
                 </a>
             </div>
             <ul class="nav flex-column">
