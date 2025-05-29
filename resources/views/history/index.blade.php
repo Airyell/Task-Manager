@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="card shadow border-0 rounded-4" style="background-color: #fdf1e5;">
         <div class="card-body">
-            <h2 class="mb-4 fw-bold text-dark">
+            <h2 class="mb-4 fw-bold text-dark text-center">
                 <i class="bi bi-clock-history me-2" style="color: #0b2c48;"></i> Activity History
             </h2>
 
@@ -21,7 +21,7 @@
                                 <span class="fw-semibold text-dark">{{ $activity->action }}</span>
                                 <span class="text-muted">on {{ $activity->model_name }}</span>
                                 <div class="small text-secondary mt-1">
-                                    <i class="bi bi-calendar-event me-1"></i>{{ $activity->created_at->format('M d, Y h:i A') }}
+                                    <i class="bi bi-calendar-event me-1"></i>{{ $activity->created_at->timezone('Asia/Manila')->format('M d, Y - h:i A') }}
                                 </div>
                             </div>
                             <form action="{{ route('history.destroy', $activity->id) }}" method="POST" onsubmit="return confirm('Delete this activity permanently?');">
