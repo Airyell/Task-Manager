@@ -1,9 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function App() {
-    return <h1>Hello from React!</h1>;
+  return (
+    <Router>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-const root = ReactDOM.createRoot(document.getElementById('app'));
-root.render(<App />);
+export default App;
