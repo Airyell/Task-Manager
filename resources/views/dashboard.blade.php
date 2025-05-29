@@ -11,10 +11,7 @@
     }
 
     .dashboard-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 90vh;
+        padding: 1rem;
     }
 
     .dashboard-card {
@@ -23,8 +20,6 @@
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(100, 90, 80, 0.2);
-        max-width: 1000px;
-        width: 100%;
         padding: 2rem;
     }
 
@@ -39,7 +34,7 @@
     }
 
     .logo {
-        max-height: 100px;
+        max-height: 80px;
         margin-bottom: 1rem;
         animation: pulse 2s infinite;
     }
@@ -65,9 +60,27 @@
     .card {
         background-color: #fffdfb;
     }
+
+    @media (max-width: 767.98px) {
+        .dashboard-card {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+        }
+
+        .card-text, .list-group-item {
+            font-size: 0.9rem;
+        }
+
+        .logo {
+            max-height: 60px;
+        }
+    }
 </style>
 
-<div class="dashboard-wrapper">
+<div class="container-fluid dashboard-wrapper">
     <div class="dashboard-card">
         <div class="dashboard-header">
             <img src="{{ asset('assets/img/kangaroo-fixed-logo.png') }}" alt="Taskaroo Logo" class="logo" />
@@ -75,8 +88,8 @@
             <p>Welcome to your dashboard where you can manage your tasks and notes.</p>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-4 mb-3">
+        <div class="row g-3 mb-4">
+            <div class="col-12 col-md-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">Tasks</h5>
@@ -86,7 +99,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-12 col-md-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">Notes</h5>
@@ -96,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 mb-3">
+            <div class="col-12 col-md-4">
                 <div class="card shadow-sm h-100">
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">Completed Tasks</h5>
@@ -107,8 +120,8 @@
             </div>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-6 mb-4">
+        <div class="row g-3">
+            <div class="col-12 col-md-6">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title">Recent Tasks</h5>
@@ -117,13 +130,13 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     {{ $task->title }}
                                     <span class="badge 
-{{ $task->status == 'to_do' ? 'bg-primary' : ($task->status == 'in_progress' ? 'bg-warning text-dark' : 'bg-success') }} 
-    rounded-pill">
-    {{ 
-        $task->status == 'to_do' ? 'To Do' : 
-        ($task->status == 'in_progress' ? 'In Progress' : 'Completed') 
-    }}
-</span>
+                                        {{ $task->status == 'to_do' ? 'bg-primary' : ($task->status == 'in_progress' ? 'bg-warning text-dark' : 'bg-success') }} 
+                                        rounded-pill">
+                                        {{ 
+                                            $task->status == 'to_do' ? 'To Do' : 
+                                            ($task->status == 'in_progress' ? 'In Progress' : 'Completed') 
+                                        }}
+                                    </span>
                                 </li>
                             @endforeach
                         </ul>
@@ -131,7 +144,7 @@
                 </div>
             </div>
 
-            <div class="col-md-6 mb-4">
+            <div class="col-12 col-md-6">
                 <div class="card shadow-sm h-100">
                     <div class="card-body">
                         <h5 class="card-title">Recent Notes</h5>
