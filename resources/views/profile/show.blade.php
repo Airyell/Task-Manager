@@ -47,6 +47,12 @@
 </style>
 
 <div class="container">
+    @if (session('status'))
+        <div class="alert alert-success mb-3 py-1">
+            <span class="small">{{ session('status') }}</span>
+        </div>
+    @endif
+
     <div class="row justify-content-center">
         <div class="col-md-8">
             <!-- User Profile -->
@@ -56,27 +62,24 @@
                     <a href="{{ route('profile.edit') }}" class="btn btn-light text-dark btn-sm text-uppercase">Edit</a>
                 </div>
 
-                @if (session('status'))
-                    <div class="alert alert-success alert-dismissible fade show mx-3 mt-3" role="alert">
-                        <strong>{{ session('status') }}</strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-sm-4 field-label">Name</div>
-                        <div class="col-sm-8 field-value">{{ $user->name }}</div>
+                        <div class="col-sm-8 field-value">
+                            <span class="text-muted">{{ $user->name }}</span>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 field-label">Email</div>
-                        <div class="col-sm-8 field-value">{{ $user->email }}</div>
+                        <div class="col-sm-8 field-value">
+                            <span class="text-muted">{{ $user->email }}</span>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-sm-4 field-label">Username</div>
-                        <div class="col-sm-8 field-value">{{ $user->username ?? 'N/A' }}</div>
+                        <div class="col-sm-8 field-value">
+                            <span class="text-muted">{{ $user->username ?? 'N/A' }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

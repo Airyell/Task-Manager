@@ -79,6 +79,7 @@
 
 <div class="container d-flex justify-content-center align-items-start">
     <div class="col-md-8">
+
         <form class="card w-100" method="POST" action="{{ route('profile.update') }}">
             @csrf
             @method('PUT')
@@ -139,11 +140,9 @@
                 </div>
 
                 <div class="form-group row mb-4">
-                    <label for="new_password_confirmation"
-                        class="col-sm-4 col-form-label text-sm-right">Confirm Password</label>
+                    <label for="new_password_confirmation" class="col-sm-4 col-form-label text-sm-right">Confirm Password</label>
                     <div class="col-sm-8">
-                        <input type="password" class="form-control" id="new_password_confirmation"
-                            name="new_password_confirmation">
+                        <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
                     </div>
                 </div>
             </div>
@@ -153,6 +152,7 @@
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
         </form>
+
     </div>
 </div>
 @endsection
