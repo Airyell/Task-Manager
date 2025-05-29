@@ -272,7 +272,7 @@
       const day = dayNames[now.getDay()];
       const date = now.toLocaleDateString(['en-US'], { day: 'numeric', month: 'long', year: 'numeric' });
       const time = now.toLocaleTimeString();
-      document.getElementById('currentDateTime').innerText = `${day}, ${date}  ${time}`;
+      document.getElementById('currentDateTime').innerText = ${day}, ${date}  ${time};
     }
     updateDateTime();
     setInterval(updateDateTime, 1000);

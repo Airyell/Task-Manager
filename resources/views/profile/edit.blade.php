@@ -77,6 +77,7 @@
     }
 </style>
 
+
 <div class="container d-flex justify-content-center align-items-start">
     <div class="col-md-8">
 
@@ -151,8 +152,11 @@
                 <a href="{{ route('profile.index') }}" class="btn btn-secondary me-2">Cancel</a>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
+            
         </form>
 
     </div>
 </div>
+
+
 @endsection
