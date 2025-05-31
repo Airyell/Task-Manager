@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Main App component to host the CreateProject component
-const App = () => {
+const CreateP = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
       <CreateProject />
@@ -209,4 +209,4 @@ const CreateProject = () => {
   );
 };
 
-export default App;
+export default CreateP;

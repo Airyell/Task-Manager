@@ -381,7 +381,7 @@ const ProfileEditForm = ({ user, onSave, onCancel }) => {
 
 
 // Main App Component
-export default function App() {
+export default function ShowProfile() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   // State for modal visibility and content
   const [modal, setModal] = useState({

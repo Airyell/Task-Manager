@@ -27,7 +27,7 @@ const customStyles = `
  * @param {Array<object>} [props.recentTasks=[]] - An array of recent task objects. Defaults to dummy data.
  * @param {Array<object>} [props.recentNotes=[]] - An array of recent note objects. Defaults to dummy data.
  */
-function App({
+function Dashboard({
   tasksCount = 3, // Dummy data for demonstration
   notesCount = 5, // Dummy data
   completedTasksCount = 10, // Dummy data
@@ -198,4 +198,4 @@ function App({
   );
 }
 
-export default App;
+export default Dashboard;

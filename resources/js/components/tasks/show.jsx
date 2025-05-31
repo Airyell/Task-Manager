@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Button } from '@/components/ui';
+
 
 const TaskDetails = ({ task }) => {
   const [seconds, setSeconds] = useState(0);

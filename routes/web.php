@@ -78,3 +78,11 @@ use App\Http\Controllers\Auth\RegisterController;
 
 Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterController::class, 'register']);
+
+
+Route::get('/{any}', function () {
+    return view('app'); // Blade file that loads Vite React
+})->where('any', '.*');
+
+
+

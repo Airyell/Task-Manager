@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
+import Dashboard from '../dashboard';
 
 const Layout = ({ user }) => {
   const [currentDateTime, setCurrentDateTime] = useState('');
@@ -66,6 +67,12 @@ const Layout = ({ user }) => {
             </div>
           </div>
         </header>
+
+        <section>
+          <div>
+            <Dashboard />
+          </div>
+        </section>
 
         {/* Page Content */}
         <main className="flex-grow p-6">

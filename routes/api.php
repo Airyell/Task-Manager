@@ -1,32 +1,24 @@
 <?php
+// routes/api.php
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
 
-Route::post('/login', function(Request $request) {
-    $credentials = $request->only('email', 'password');
+// Authentication routes
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
-    if (Auth::attempt($credentials, $request->boolean('remember'))) {
-        $request->session()->regenerate();
-        return response()->json([
-            'message' => 'Login successful',
-            'user' => Auth::user()
-        ]);
-    }
-
-    return response()->json([
-        'message' => 'Invalid credentials'
-    ], 401);
+// Protected task routes
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/tasks', [TaskController::class, 'index']);
+    Route::post('/tasks', [TaskController::class, 'store']);
+    Route::put('/tasks/{id}', [TaskController::class, 'update']);
+    Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
 });
-Route::post('/logout', function (Request $request) {
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
 
-    return response()->json(['message' => 'Logged out']);
-});
-use Illuminate\Support\Facades\Route;
-
-Route::middleware('auth')->get('/user', function () {
-    return Auth::user();
-});
+// Optional: Check auth status
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:sanctum');

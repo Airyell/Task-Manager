@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Main App component to host the AddNote component
-const App = () => {
+const CreateNote = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
       <AddNote />
@@ -167,4 +167,4 @@ const AddNote = () => {
   );
 };
 
-export default App;
+export default CreateNote;
