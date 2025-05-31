@@ -1,3 +1,4 @@
+// resources/js/app.jsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -22,35 +23,34 @@ import TasksE from './components/tasks/edit';
 import CreateTask from './components/tasks/create';
 import ActivityHistory from './components/auth/history/Index';
 
-
-
-
 const App = () => (
   <BrowserRouter>
-    <Routes>
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/app" element={<Layout />} />
-      <Route path="/notes/index" element={<Notes />} />
-      <Route path="/notes/create" element={<CreateNote />} />
-      <Route path="/notes/edit" element={<EditNote />} />
-      <Route path="/profile/edit" element={<EditProfile />} />
-      <Route path="/profile/index" element={<UserProfile />} />
-      <Route path="/profile/show" element={<ShowProfile />} />
-      <Route path="/projects/show" element={<ProjectDetails />} />
-      <Route path="/projects/index" element={<Projects />} />
-      <Route path="/projects/edit" element={<EditProject />} />
-      <Route path="/projects/create" element={<CreateP />} />
-      <Route path="/tasks/show" element={<TaskDetails />} />
-      <Route path="/tasks/index" element={<TasksI />} />
-      <Route path="/tasks/edit" element={<TasksE />} />
-      <Route path="/tasks/create" element={<CreateTask />} />
-      <Route path="/auth/history/history" element={<ActivityHistory />} />
-    </Routes>
-  </BrowserRouter>
+  <Routes>
+    <Route path="/login" element={<Login />} />
+    <Route path="/register" element={<Register />} />
+
+    <Route path="/" element={<Layout />}>
+      <Route index element={<Dashboard />} />
+      <Route path="dashboard" element={<Dashboard />} /> {/* ✅ Moved inside */}
+      <Route path="notes" element={<Notes />} />
+      <Route path="notes/create" element={<CreateNote />} />
+      <Route path="notes/edit" element={<EditNote />} />
+      <Route path="profile" element={<UserProfile />} />
+      <Route path="profile/edit" element={<EditProfile />} />
+      <Route path="profile/show" element={<ShowProfile />} />
+      <Route path="projects" element={<Projects />} />
+      <Route path="projects/create" element={<CreateP />} />
+      <Route path="projects/edit" element={<EditProject />} />
+      <Route path="projects/show" element={<ProjectDetails />} />
+      <Route path="tasks" element={<TasksI />} />
+      <Route path="tasks/create" element={<CreateTask />} />
+      <Route path="tasks/edit" element={<TasksE />} />
+      <Route path="tasks/show" element={<TaskDetails />} />
+      <Route path="history" element={<ActivityHistory />} />
+    </Route>
+  </Routes>
+</BrowserRouter>
 );
 
 ReactDOM.createRoot(document.getElementById('app')).render(<App />);
-
 export default App;

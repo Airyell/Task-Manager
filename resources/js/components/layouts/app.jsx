@@ -1,6 +1,6 @@
+// resources/js/components/layouts/app.jsx
 import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
-import Dashboard from '../dashboard';
 
 const Layout = ({ user }) => {
   const [currentDateTime, setCurrentDateTime] = useState('');
@@ -25,12 +25,12 @@ const Layout = ({ user }) => {
       {/* Sidebar */}
       <aside className="w-64 bg-gray-800 text-white flex flex-col">
         <div className="text-center p-4">
-          <NavLink to="/dashboard">
+          <NavLink to="/">
             <img src="/assets/img/taskaroo-removebg.png" alt="task manager" className="w-full" />
           </NavLink>
         </div>
         <nav className="flex-grow px-2 space-y-1">
-          <NavLink to="/dashboard" className={({ isActive }) => `flex items-center px-3 py-2 rounded ${isActive ? 'bg-gray-700' : ''}`}>
+          <NavLink to="/" className={({ isActive }) => `flex items-center px-3 py-2 rounded ${isActive ? 'bg-gray-700' : ''}`}>
             <i className="bi bi-house-door mr-2"></i> Home
           </NavLink>
           <NavLink to="/projects" className={({ isActive }) => `flex items-center px-3 py-2 rounded ${isActive ? 'bg-gray-700' : ''}`}>
@@ -67,12 +67,6 @@ const Layout = ({ user }) => {
             </div>
           </div>
         </header>
-
-        <section>
-          <div>
-            <Dashboard />
-          </div>
-        </section>
 
         {/* Page Content */}
         <main className="flex-grow p-6">
