@@ -63,8 +63,7 @@ Route::middleware(['auth'])->group(function () {
     // Tasks
     Route::get('tasks/{task}', [TaskController::class, 'show'])->name('tasks.show');
     Route::put('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
-    Route::post('tasks/{task}/update-status', [TaskController::class, 'updateStatus']);
-    Route::post('/tasks/{id}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+    Route::patch('tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
 
     // Checklist Items
     Route::resource('checklist-items', ChecklistItemController::class);
