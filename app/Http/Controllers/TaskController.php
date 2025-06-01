@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\ActivityLog;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,32 +29,56 @@ class TaskController extends Controller
 
     public function store(Request $request, Project $project)
     {
-        $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'due_date' => 'nullable|date',
-            'priority' => 'required|in:low,medium,high',
-            'status' => 'nullable|in:to_do,in_progress,completed', // optional on create
-        ]);
+        try {
+            $validated = $request->validate([
+                'user_id' => 'required|exists:users,id',
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'due_date' => 'nullable|date',
+                'priority' => 'required|in:low,medium,high',
+            ]);
 
-        // Assign default status if not provided
-        if (!isset($validated['status'])) {
-            $validated['status'] = 'to_do';
+            $task = $project->tasks()->create($validated);
+
+            // Get the user name for the response
+            $userName = User::find($validated['user_id'])->name;
+
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'CREATED THE TASK: ' . $task->title,
+                'model_name' => $task->title,
+                'created_at' => now(),
+            ]);
+
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Task created successfully',
+                    'task' => array_merge($task->toArray(), [
+                        'user_name' => $userName,
+                        'project_id' => $project->id
+                    ])
+                ]);
+            }
+
+            return redirect()->route('projects.tasks.index', $project)->with('success', 'Task created successfully.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'errors' => $e->errors()
+                ], 422);
+            }
+            throw $e;
+        } catch (\Exception $e) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'An error occurred while creating the task'
+                ], 500);
+            }
+            throw $e;
         }
-
-        $task = $project->tasks()->create($validated);
-
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'CREATED THE TASK: ' . $task->title,
-            'model_name' => 'Task',
-            'model_id' => $task->id,
-            'created_at' => now(),
-        ]);
-
-        return redirect()->route('projects.tasks.index', $project)
-            ->with('success', 'Task created successfully.');
     }
 
     public function show(Task $task)
