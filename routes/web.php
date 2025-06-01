@@ -7,6 +7,7 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,14 @@ Route::middleware(['auth'])->group(function () {
 
     // Notes routes — Added to fix missing route error
     Route::resource('notes', NoteController::class);
+
+    /// routes/web.php
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/user/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard');
+
+});
+
 
     // Dashboard Route (Home Page)
     Route::get('/', function () {

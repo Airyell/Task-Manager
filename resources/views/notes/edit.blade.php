@@ -5,92 +5,65 @@
 @endsection
 
 @section('content')
-<style>
-    body {
-        background-color: #fdf1e5 !important;
-        font-family: 'Noto Sans', sans-serif;
-    }
+<div class="py-10 px-4">
+    <h2 class="text-2xl lg:text-3xl font-bold text-[#0b2c48] bg-white text-center py-5 rounded-2xl shadow-md max-w-xl mx-auto mb-8">
+        Edit Note
+    </h2>
 
-    .section-header {
-        background-color: #ffffff;
-        color: #0b2c48;
-        font-weight: bold;
-        padding: 1.25rem;
-        border-radius: 1rem;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.06);
-        margin-bottom: 2rem;
-        text-align: center;
-    }
-
-    .form-container {
-        background-color: #ffffff;
-        border-radius: 1rem;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-        padding: 2rem;
-        max-width: 600px;
-        margin: auto;
-    }
-
-    .form-label {
-        color: #0b2c48;
-        font-weight: 500;
-    }
-
-    .form-control {
-        border-radius: 0.5rem;
-        border: 1px solid #ccc;
-    }
-
-    .btn-primary {
-        background-color: #ff914d;
-        border-color: #ff914d;
-        border-radius: 0.5rem;
-        font-weight: 500;
-    }
-
-    .btn-primary:hover {
-        background-color: #e57732;
-        border-color: #e57732;
-    }
-
-    .text-danger {
-        font-size: 0.9rem;
-    }
-</style>
-
-<div class="container py-5">
-    <h2 class="section-header">Edit Note</h2>
-
-    <div class="form-container">
+    <div class="bg-white rounded-2xl shadow-lg p-8 max-w-xl mx-auto">
         <form action="{{ route('notes.update', $note->id) }}" method="POST">
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="title" id="title" class="form-control" value="{{ $note->title }}" required>
+            <div class="mb-4">
+                <label for="title" class="block text-[#0b2c48] font-medium mb-2">Title</label>
+                <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff914d] focus:border-transparent"
+                    value="{{ $note->title }}"
+                    required
+                >
                 @error('title')
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea name="content" id="content" class="form-control" rows="5" required>{{ $note->content }}</textarea>
+            <div class="mb-4">
+                <label for="content" class="block text-[#0b2c48] font-medium mb-2">Content</label>
+                <textarea
+                    name="content"
+                    id="content"
+                    rows="5"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff914d] focus:border-transparent"
+                    required
+                >{{ $note->content }}</textarea>
                 @error('content')
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-            <div class="mb-3">
-                <label for="date" class="form-label">Date</label>
-                <input type="date" name="date" id="date" class="form-control" value="{{ $note->date }}">
+            <div class="mb-6">
+                <label for="date" class="block text-[#0b2c48] font-medium mb-2">Date</label>
+                <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value="{{ $note->date }}"
+                    class="w-full rounded-md border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff914d] focus:border-transparent"
+                >
                 @error('date')
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="text-red-600 text-sm">{{ $message }}</span>
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary w-100">Update Note</button>
+            <button
+                type="submit"
+                class="w-full bg-[#ff914d] hover:bg-[#e57732] text-white font-semibold py-2 px-4 rounded-md transition duration-200"
+            >
+                Update Note
+            </button>
         </form>
     </div>
 </div>

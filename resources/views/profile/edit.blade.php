@@ -1,162 +1,84 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    body {
-        background-color: #fdf1e5 !important;
-        font-family: 'Noto Sans', sans-serif;
-    }
-
-    .container {
-        padding-top: 80px;
-        min-height: 100vh;
-    }
-
-    .card {
-        border: none;
-        border-radius: 1.25rem;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-        background-color: #fff;
-    }
-
-    .card-header {
-        background-color: transparent;
-        border-bottom: none;
-        padding-bottom: 0;
-    }
-
-    .card-header h4 {
-        color: #0b2c48;
-        font-weight: 600;
-    }
-
-    .form-group label {
-        color: #0b2c48;
-        font-weight: 500;
-    }
-
-    .form-control {
-        border-radius: 0.5rem;
-        border: 1px solid #ccc;
-        transition: border-color 0.2s;
-    }
-
-    .form-control:focus {
-        border-color: #ff914d;
-        box-shadow: 0 0 0 0.1rem rgba(255, 145, 77, 0.25);
-    }
-
-    .alert-danger {
-        border-radius: 0.5rem;
-        background-color: #ffe0e0;
-        border: none;
-        color: #b10000;
-    }
-
-    .btn-success {
-        background-color: #ff914d;
-        border: none;
-        font-weight: 500;
-        padding: 0.5rem 1.25rem;
-        border-radius: 999px;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .btn-success:hover {
-        background-color: #e57732;
-    }
-
-    .btn-secondary {
-        border-radius: 999px;
-        padding: 0.5rem 1.25rem;
-    }
-
-    .card-footer {
-        background-color: transparent;
-        border-top: none;
-    }
-</style>
-
-
-<div class="container d-flex justify-content-center align-items-start">
-    <div class="col-md-8">
-
-        <form class="card w-100" method="POST" action="{{ route('profile.update') }}">
+<div class="min-h-screen bg-[#fdf1e5] font-['Noto_Sans'] py-20 flex justify-center items-start">
+    <div class="w-full max-w-2xl">
+        <form method="POST" action="{{ route('profile.update') }}" class="bg-white rounded-2xl shadow-2xl p-8">
             @csrf
             @method('PUT')
 
-            <div class="card-header text-center">
-                <h4 class="mb-0 mt-2">Edit Profile</h4>
+            <div class="text-center mb-6">
+                <h4 class="text-2xl font-semibold text-[#0b2c48]">Edit Profile</h4>
             </div>
 
-            <div class="card-body">
-                @if ($errors->any())
-                    <div class="alert alert-danger mb-3">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
-                <div class="form-group row mb-3">
-                    <label for="name" class="col-sm-4 col-form-label text-sm-right">Name</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="name" name="name"
-                            value="{{ old('name', $user->name) }}">
-                    </div>
+            @if ($errors->any())
+                <div class="bg-[#ffe0e0] text-[#b10000] rounded-lg px-4 py-3 mb-5">
+                    <ul class="list-disc pl-5">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
                 </div>
+            @endif
 
-                <div class="form-group row mb-3">
-                    <label for="username" class="col-sm-4 col-form-label text-sm-right">Username</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" id="username" name="username"
-                            value="{{ old('username', $user->username ?? '') }}">
-                    </div>
-                </div>
-
-                <div class="form-group row mb-4">
-                    <label for="email" class="col-sm-4 col-form-label text-sm-right">Email</label>
-                    <div class="col-sm-8">
-                        <input type="email" class="form-control" id="email" name="email"
-                            value="{{ old('email', $user->email) }}">
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="form-group row mb-3">
-                    <label for="current_password" class="col-sm-4 col-form-label text-sm-right">Current Password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="current_password" name="current_password">
-                    </div>
-                </div>
-
-                <div class="form-group row mb-3">
-                    <label for="new_password" class="col-sm-4 col-form-label text-sm-right">New Password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="new_password" name="new_password">
-                    </div>
-                </div>
-
-                <div class="form-group row mb-4">
-                    <label for="new_password_confirmation" class="col-sm-4 col-form-label text-sm-right">Confirm Password</label>
-                    <div class="col-sm-8">
-                        <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
-                    </div>
-                </div>
+            {{-- Name --}}
+            <div class="flex flex-col sm:flex-row items-center mb-4">
+                <label for="name" class="w-full sm:w-1/3 text-[#0b2c48] font-medium mb-2 sm:mb-0 text-right pr-4">Name</label>
+                <input type="text" id="name" name="name"
+                    class="w-full sm:w-2/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-400 focus:ring focus:ring-orange-200"
+                    value="{{ old('name', $user->name) }}">
             </div>
 
-            <div class="card-footer text-end">
-                <a href="{{ route('profile.index') }}" class="btn btn-secondary me-2">Cancel</a>
-                <button type="submit" class="btn btn-success">Save</button>
+            {{-- Username --}}
+            <div class="flex flex-col sm:flex-row items-center mb-4">
+                <label for="username" class="w-full sm:w-1/3 text-[#0b2c48] font-medium mb-2 sm:mb-0 text-right pr-4">Username</label>
+                <input type="text" id="username" name="username"
+                    class="w-full sm:w-2/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-400 focus:ring focus:ring-orange-200"
+                    value="{{ old('username', $user->username ?? '') }}">
             </div>
-            
+
+            {{-- Email --}}
+            <div class="flex flex-col sm:flex-row items-center mb-6">
+                <label for="email" class="w-full sm:w-1/3 text-[#0b2c48] font-medium mb-2 sm:mb-0 text-right pr-4">Email</label>
+                <input type="email" id="email" name="email"
+                    class="w-full sm:w-2/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-400 focus:ring focus:ring-orange-200"
+                    value="{{ old('email', $user->email) }}">
+            </div>
+
+            <hr class="my-6">
+
+            {{-- Current Password --}}
+            <div class="flex flex-col sm:flex-row items-center mb-4">
+                <label for="current_password" class="w-full sm:w-1/3 text-[#0b2c48] font-medium mb-2 sm:mb-0 text-right pr-4">Current Password</label>
+                <input type="password" id="current_password" name="current_password"
+                    class="w-full sm:w-2/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-400 focus:ring focus:ring-orange-200">
+            </div>
+
+            {{-- New Password --}}
+            <div class="flex flex-col sm:flex-row items-center mb-4">
+                <label for="new_password" class="w-full sm:w-1/3 text-[#0b2c48] font-medium mb-2 sm:mb-0 text-right pr-4">New Password</label>
+                <input type="password" id="new_password" name="new_password"
+                    class="w-full sm:w-2/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-400 focus:ring focus:ring-orange-200">
+            </div>
+
+            {{-- Confirm Password --}}
+            <div class="flex flex-col sm:flex-row items-center mb-6">
+                <label for="new_password_confirmation" class="w-full sm:w-1/3 text-[#0b2c48] font-medium mb-2 sm:mb-0 text-right pr-4">Confirm Password</label>
+                <input type="password" id="new_password_confirmation" name="new_password_confirmation"
+                    class="w-full sm:w-2/3 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:border-orange-400 focus:ring focus:ring-orange-200">
+            </div>
+
+            <div class="flex justify-end gap-3 mt-4">
+                <a href="{{ route('profile.index') }}"
+                   class="bg-gray-300 text-gray-800 px-5 py-2 rounded-full font-medium hover:bg-gray-400 transition">
+                   Cancel
+                </a>
+                <button type="submit"
+                    class="bg-[#ff914d] text-white px-5 py-2 rounded-full font-medium hover:bg-[#e57732] transition">
+                    Save
+                </button>
+            </div>
         </form>
-
     </div>
 </div>
-
-
 @endsection

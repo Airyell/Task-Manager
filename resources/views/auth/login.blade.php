@@ -4,160 +4,92 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login | Taskaroo</title>
-
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="shortcut icon" href="{{ asset('assets/img/กระดาษโน๊ต-removebg-preview.png') }}" type="image/x-icon" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-
   <style>
     body {
-      background: url('{{ asset('assets/img/Background.png') }}') no-repeat center center fixed;
-      background-size: cover;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding-top: 2rem;
-    }
-
-    h1.page-title {
-      color: #0f2d4e;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-align: center;
-      font-size: 2.5rem;
-    }
+      background: url('{{ asset('assets/img/Background.png') }}') no-repeat center center fixed; background-size: cover; font-family: 'Poppins', sans-serif;}
 
     .glass-card {
-      background: rgba(255, 248, 241, 0.85);
-      border-radius: 1rem;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(100, 90, 80, 0.2);
-      width: 100%;
-      max-width: 420px;
-      overflow: hidden;
-    }
-
-    .card-header {
-      background-color: #0f2d4e;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    .card-header img {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      object-fit: cover;
-      filter: brightness(110%);
-      animation: pulse 2s infinite;
-      border: 3px solid #fdf9f3;
-      background-color: white;
-    }
+      background: rgba(255, 248, 241, 0.85); border-radius: 1rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border: 1px solid rgba(100, 90, 80, 0.2);}
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
       50% { transform: scale(1.05); opacity: 0.9; }
     }
 
-    .form-label {
-      font-weight: 600;
-      color: #0f2d4e;
-    }
-
-    .form-control {
-      border-radius: 0.75rem;
-      padding: 0.6rem 1rem;
-      border: 1px solid #ccc;
-      background-color: #fdf9f3;
-    }
-
-    .form-control:focus {
-      box-shadow: 0 0 0 0.2rem rgba(15, 45, 78, 0.25);
-    }
-
-    .btn-primary {
-      background-color: #0f2d4e;
-      border: none;
-      font-weight: 600;
-      border-radius: 0.75rem;
-      transition: background-color 0.3s ease-in-out;
-    }
-
-    .btn-primary:hover {
-      background-color: #0c233c;
-    }
-
-    .register-link {
-      text-align: center;
-      margin-top: 1rem;
-    }
-
-    .register-link a {
-      text-decoration: none;
-      font-weight: 500;
-      color: #f28b2c;
-    }
-
-    .card-footer {
-      background-color: #fefaf5;
-      font-size: 0.85rem;
-      text-align: center;
-      padding: 1rem;
-      color: #7a6e58;
-    }
+    .animate-pulse-img {
+      animation: pulse 2s infinite; }
   </style>
 </head>
-<body>
+<body class="flex flex-col items-center min-h-screen pt-8">
 
-  <h1 class="page-title">Taskaroo</h1>
+  <h1 class="text-4xl font-bold text-[#0f2d4e] mb-4 text-center">Taskaroo</h1>
 
-  <div class="glass-card">
-    <div class="card-header">
-      <img src="{{ asset('assets/img/logo-horizontal.png') }}" alt="Taskaroo Logo" />
+  <div class="glass-card w-full max-w-md overflow-hidden">
+    <!-- Card Header -->
+    <div class="bg-[#0f2d4e] p-8 text-center">
+      <img src="{{ asset('assets/img/logo-horizontal.png') }}" alt="Taskaroo Logo"
+           class="w-24 h-24 mx-auto rounded-full object-cover brightness-110 animate-pulse-img border-4 border-white bg-white">
     </div>
-    <div class="card-body p-4">
+
+    <!-- Card Body -->
+    <div class="p-6">
       <form method="POST" action="{{ route('login') }}">
         @csrf
-        <div class="mb-3">
-          <label for="email" class="form-label">Email Address</label>
-          <input type="email" name="email" id="email" class="form-control" placeholder="admin@example.com" required autofocus />
+
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label for="email" class="block font-semibold text-[#0f2d4e] mb-1">Email Address</label>
+          <input type="email" name="email" id="email"
+                 class="w-full rounded-xl px-4 py-2 border border-gray-300 bg-[#fdf9f3] focus:outline-none focus:ring-2 focus:ring-[#0f2d4e]/30"
+                 placeholder="admin@example.com" required autofocus />
           @error('email')
-          <span class="text-danger small">{{ $message }}</span>
+          <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
         </div>
 
-        <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" name="password" id="password" class="form-control" required />
+        <!-- Password Field -->
+        <div class="mb-4">
+          <label for="password" class="block font-semibold text-[#0f2d4e] mb-1">Password</label>
+          <input type="password" name="password" id="password"
+                 class="w-full rounded-xl px-4 py-2 border border-gray-300 bg-[#fdf9f3] focus:outline-none focus:ring-2 focus:ring-[#0f2d4e]/30"
+                 required />
           @error('password')
-          <span class="text-danger small">{{ $message }}</span>
+          <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
         </div>
 
-        <div class="mb-3 form-check">
-          <input type="checkbox" name="remember" id="remember" class="form-check-input" />
-          <label for="remember" class="form-check-label">Remember Me</label>
+        <!-- Remember Me -->
+        <div class="mb-4 flex items-center">
+          <input type="checkbox" name="remember" id="remember" class="mr-2" />
+          <label for="remember" class="text-sm text-gray-700">Remember Me</label>
         </div>
 
-        <div class="d-grid">
-          <button type="submit" class="btn btn-primary">Login</button>
+        <!-- Login Button -->
+        <div class="mb-4">
+          <button type="submit"
+                  class="w-full bg-[#0f2d4e] hover:bg-[#0c233c] text-white font-semibold py-2 rounded-xl transition duration-300">
+            Login
+          </button>
         </div>
 
-        <div class="register-link">
-          <p>Don't have an account? <a href="{{ route('register') }}">Register here</a></p>
+        <!-- Register Link -->
+        <div class="text-center mt-4">
+          <p class="text-sm">Don't have an account?
+            <a href="{{ route('register') }}" class="text-[#f28b2c] font-medium hover:underline">
+              Register here
+            </a>
+          </p>
         </div>
       </form>
     </div>
 
-    <div class="card-footer">
+    <!-- Footer -->
+    <div class="bg-[#fefaf5] text-sm text-center text-[#7a6e58] py-4">
       &copy; 2025 Nikol and Friends. All rights reserved.
     </div>
   </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

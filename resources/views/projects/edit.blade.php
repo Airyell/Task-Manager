@@ -5,141 +5,92 @@
 @endsection
 
 @section('content')
-<style>
-    body {
-        background-color: #fdf1e5 !important;
-        font-family: 'Noto Sans', sans-serif;
-    }
+<div class="bg-[#fdf1e5] font-sans min-h-screen pt-20 pb-16 flex justify-center">
+    <div class="w-full max-w-2xl px-4">
+        <div class="text-center mb-8 bg-white rounded-2xl shadow-md py-4 px-6 text-[#0b2c48] font-semibold text-2xl">
+            Edit Project – {{ $project->name }}
+        </div>
 
-    .container {
-        padding-top: 80px;
-        padding-bottom: 60px;
-    }
-
-    .page-title {
-        font-size: 1.75rem;
-        font-weight: 600;
-        color: #0b2c48;
-        background-color: #ffffff;
-        padding: 1rem 1.5rem;
-        border-radius: 1rem;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .card {
-        border: none;
-        border-radius: 1.25rem;
-        background-color: #ffffff;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .card-body {
-        padding: 2rem;
-    }
-
-    .form-label {
-        font-weight: 500;
-        color: #0b2c48;
-    }
-
-    .form-control,
-    .form-select {
-        border-radius: 0.5rem;
-        border: 1px solid #ccc;
-        transition: border-color 0.2s;
-    }
-
-    .form-control:focus,
-    .form-select:focus {
-        border-color: #ff914d;
-        box-shadow: 0 0 0 0.15rem rgba(255, 145, 77, 0.25);
-    }
-
-    .text-danger {
-        font-size: 0.875rem;
-        margin-top: 0.25rem;
-    }
-
-    .btn-primary {
-        background-color: #ff914d;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 999px;
-        font-weight: 500;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .btn-primary:hover {
-        background-color: #e57732;
-    }
-</style>
-
-<div class="container d-flex justify-content-center">
-    <div class="w-100" style="max-width: 700px;">
-        <div class="page-title">Edit Project – {{ $project->name }}</div>
-        <div class="card">
-            <div class="card-body">
+        <div class="bg-white rounded-3xl shadow-lg">
+            <div class="p-8">
                 <form action="{{ route('projects.update', $project->id) }}" method="POST">
                     @csrf
                     @method('PUT')
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Project Name</label>
-                        <input type="text" name="name" id="name" class="form-control" 
-                               value="{{ $project->name }}" required>
+                    <div class="mb-6">
+                        <label for="name" class="block font-medium text-[#0b2c48] mb-2">Project Name</label>
+                        <input 
+                            type="text" 
+                            name="name" 
+                            id="name" 
+                            class="w-full rounded-lg border border-gray-300 focus:border-[#ff914d] focus:ring-2 focus:ring-[#ff914d] focus:outline-none px-4 py-2"
+                            value="{{ $project->name }}" 
+                            required>
                         @error('name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea name="description" id="description" class="form-control" rows="4">{{ $project->description }}</textarea>
+                    <div class="mb-6">
+                        <label for="description" class="block font-medium text-[#0b2c48] mb-2">Description</label>
+                        <textarea 
+                            name="description" 
+                            id="description" 
+                            rows="4" 
+                            class="w-full rounded-lg border border-gray-300 focus:border-[#ff914d] focus:ring-2 focus:ring-[#ff914d] focus:outline-none px-4 py-2">{{ $project->description }}</textarea>
                         @error('description')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="start_date" class="form-label">Start Date</label>
-                        <input type="date" name="start_date" id="start_date" class="form-control"
+                    <div class="mb-6">
+                        <label for="start_date" class="block font-medium text-[#0b2c48] mb-2">Start Date</label>
+                        <input 
+                            type="date" 
+                            name="start_date" 
+                            id="start_date" 
+                            class="w-full rounded-lg border border-gray-300 focus:border-[#ff914d] focus:ring-2 focus:ring-[#ff914d] focus:outline-none px-4 py-2"
                             value="{{ \Carbon\Carbon::parse($project->start_date)->format('Y-m-d') }}">
                         @error('start_date')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="end_date" class="form-label">End Date</label>
-                        <input type="date" name="end_date" id="end_date" class="form-control"
+                    <div class="mb-6">
+                        <label for="end_date" class="block font-medium text-[#0b2c48] mb-2">End Date</label>
+                        <input 
+                            type="date" 
+                            name="end_date" 
+                            id="end_date" 
+                            class="w-full rounded-lg border border-gray-300 focus:border-[#ff914d] focus:ring-2 focus:ring-[#ff914d] focus:outline-none px-4 py-2"
                             value="{{ \Carbon\Carbon::parse($project->end_date)->format('Y-m-d') }}">
                         @error('end_date')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="mb-4">
-                        <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-select" required>
-                            <option value="not_started" {{ $project->status == 'not_started' ? 'selected' : '' }}>
-                                Not Started
-                            </option>
-                            <option value="in_progress" {{ $project->status == 'in_progress' ? 'selected' : '' }}>
-                                In Progress
-                            </option>
-                            <option value="completed" {{ $project->status == 'completed' ? 'selected' : '' }}>
-                                Completed
-                            </option>
+                    <div class="mb-8">
+                        <label for="status" class="block font-medium text-[#0b2c48] mb-2">Status</label>
+                        <select 
+                            name="status" 
+                            id="status" 
+                            class="w-full rounded-lg border border-gray-300 focus:border-[#ff914d] focus:ring-2 focus:ring-[#ff914d] focus:outline-none px-4 py-2" 
+                            required>
+                            <option value="not_started" {{ $project->status == 'not_started' ? 'selected' : '' }}>Not Started</option>
+                            <option value="in_progress" {{ $project->status == 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                            <option value="completed" {{ $project->status == 'completed' ? 'selected' : '' }}>Completed</option>
                         </select>
                         @error('status')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-red-600 text-sm mt-1 block">{{ $message }}</span>
                         @enderror
                     </div>
 
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-primary">Update Project</button>
+                    <div class="text-right">
+                        <button 
+                            type="submit" 
+                            class="bg-[#ff914d] hover:bg-[#e57732] text-white font-medium rounded-full px-6 py-2 transition-colors duration-200">
+                            Update Project
+                        </button>
                     </div>
                 </form>
             </div>

@@ -1,85 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    .user-profile {
-        border-radius: 1rem;
-        overflow: hidden;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-        background: #fff;
-    }
-
-    .user-profile .card-header {
-        background: #0f2d4e;
-        color: #fff;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 1.5rem;
-    }
-
-    .user-profile .card-body {
-        padding: 1.5rem;
-    }
-
-    .field-label {
-        font-weight: 600;
-        color: #333;
-        text-align: right;
-    }
-
-    .field-value {
-        background-color: #f8f9fa;
-        padding: 0.5rem 1rem;
-        border-radius: 0.375rem;
-    }
-
-    .alert-success {
-        margin-top: 1rem;
-    }
-
-    @media (max-width: 576px) {
-        .field-label {
-            text-align: left;
-            margin-bottom: 0.25rem;
-        }
-    }
-</style>
-
-<div class="container">
+<div class="container mx-auto px-4">
     @if (session('status'))
-        <div class="alert alert-success mb-3 py-1">
-            <span class="small">{{ session('status') }}</span>
+        <div class="bg-green-100 text-green-800 text-sm font-medium px-4 py-2 rounded mt-4 mb-6">
+            {{ session('status') }}
         </div>
     @endif
 
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="flex justify-center">
+        <div class="w-full max-w-2xl">
             <!-- User Profile -->
-            <div class="card user-profile">
-                <div class="card-header">
-                    <h4 class="mb-0">User Profile</h4>
-                    <a href="{{ route('profile.edit') }}" class="btn btn-light text-dark btn-sm text-uppercase">Edit</a>
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="bg-[#0f2d4e] text-white flex justify-between items-center px-6 py-4">
+                    <h4 class="text-lg font-semibold mb-0">User Profile</h4>
+                    <a href="{{ route('profile.edit') }}"
+                       class="text-sm uppercase bg-white text-[#0f2d4e] hover:bg-gray-200 font-medium px-3 py-1.5 rounded transition duration-150">
+                        Edit
+                    </a>
                 </div>
 
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-sm-4 field-label">Name</div>
-                        <div class="col-sm-8 field-value">
-                            <span class="text-muted">{{ $user->name }}</span>
-                        </div>
+                <div class="px-6 py-6">
+                    <div class="mb-4 flex flex-col sm:flex-row sm:items-center">
+                        <div class="sm:w-1/3 font-semibold text-gray-700 mb-1 sm:mb-0 text-sm sm:text-right">Name</div>
+                        <div class="sm:w-2/3 bg-gray-100 text-sm text-gray-600 px-4 py-2 rounded-md">{{ $user->name }}</div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4 field-label">Email</div>
-                        <div class="col-sm-8 field-value">
-                            <span class="text-muted">{{ $user->email }}</span>
-                        </div>
+
+                    <div class="mb-4 flex flex-col sm:flex-row sm:items-center">
+                        <div class="sm:w-1/3 font-semibold text-gray-700 mb-1 sm:mb-0 text-sm sm:text-right">Email</div>
+                        <div class="sm:w-2/3 bg-gray-100 text-sm text-gray-600 px-4 py-2 rounded-md">{{ $user->email }}</div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-sm-4 field-label">Username</div>
-                        <div class="col-sm-8 field-value">
-                            <span class="text-muted">{{ $user->username ?? 'N/A' }}</span>
-                        </div>
+
+                    <div class="mb-4 flex flex-col sm:flex-row sm:items-center">
+                        <div class="sm:w-1/3 font-semibold text-gray-700 mb-1 sm:mb-0 text-sm sm:text-right">Username</div>
+                        <div class="sm:w-2/3 bg-gray-100 text-sm text-gray-600 px-4 py-2 rounded-md">{{ $user->username ?? 'N/A' }}</div>
                     </div>
                 </div>
             </div>

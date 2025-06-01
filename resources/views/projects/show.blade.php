@@ -5,144 +5,72 @@
 @endsection
 
 @section('content')
-<style>
-    body {
-        background-color: #fdf1e5 !important;
-        font-family: 'Noto Sans', sans-serif;
-    }
-
-    .section-header {
-        background-color: #fff;
-        color: #0b2c48;
-        font-weight: bold;
-        padding: 1.25rem;
-        border-radius: 1rem;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.06);
-        margin-bottom: 2rem;
-    }
-
-    .card {
-        border: none;
-        border-radius: 1rem;
-        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-    }
-
-    .card-title {
-        font-weight: 600;
-        color: #0b2c48;
-    }
-
-    .btn-primary {
-        background-color: #ff914d;
-        border-color: #ff914d;
-        border-radius: 0.5rem;
-    }
-
-    .btn-primary:hover {
-        background-color: #e57732;
-        border-color: #e57732;
-    }
-
-    .btn-secondary {
-        border-radius: 0.5rem;
-    }
-
-    .progress {
-        height: 20px;
-        border-radius: 999px;
-        background-color: #e0e0e0;
-    }
-
-    .progress-bar {
-        background-color: #ff914d;
-        font-weight: bold;
-    }
-
-    .modal-content {
-        border-radius: 1rem;
-    }
-
-    .alert-success {
-        background-color: #d1f0dc;
-        border: 1px solid #b0e1c7;
-        color: #1e5631;
-        border-radius: 0.5rem;
-        padding: 0.75rem 1.25rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .team-card {
-        border-radius: 0.75rem;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        padding: 0.75rem 1rem;
-        background-color: #ffffff;
-    }
-
-    .team-card p {
-        margin: 0;
-    }
-</style>
-
-<div class="container py-5">
-    <h2 class="section-header text-center">{{ $project->name }}</h2>
+<div class="bg-[#fdf1e5] font-sans min-h-screen py-12 px-4 md:px-8">
+    <h2 class="bg-white text-[#0b2c48] font-bold text-2xl md:text-3xl text-center rounded-xl shadow-md py-5 mb-8">
+        {{ $project->name }}
+    </h2>
 
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="bg-green-100 border border-green-300 text-green-800 rounded-md px-5 py-3 mb-6">
+            {{ session('success') }}
+        </div>
     @endif
 
-    <div class="row">
+    <div class="md:flex md:space-x-6">
         <!-- Project Details -->
-        <div class="col-md-7 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $project->name }}</h5>
-                    <p class="card-text">{{ $project->description }}</p>
-                    <p class="card-text"><strong>Start Date:</strong> {{ \Carbon\Carbon::parse($project->start_date)->format('Y-m-d') }}</p>
-                    <p class="card-text"><strong>End Date:</strong> {{ \Carbon\Carbon::parse($project->end_date)->format('Y-m-d') }}</p>
-                    <p class="card-text"><strong>Status:</strong> 
-                        {{ $project->status == 'pending' ? 'Pending' : ($project->status == 'on_going' ? 'In Progress' : 'Completed') }}
-                    </p>
-                    <p class="card-text"><strong>Budget:</strong> ${{ $project->budget }}</p>
+        <div class="md:w-7/12 mb-8 md:mb-0">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h5 class="text-xl font-semibold text-[#0b2c48] mb-3">{{ $project->name }}</h5>
+                <p class="text-gray-700 mb-3">{{ $project->description }}</p>
 
-                    @php
-                        $totalTasks = $project->tasks->count();
-                        $completedTasks = $project->tasks->where('status', 'completed')->count();
-                        $progress = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
-                    @endphp
+                <p class="mb-1"><strong>Start Date:</strong> {{ \Carbon\Carbon::parse($project->start_date)->format('Y-m-d') }}</p>
+                <p class="mb-1"><strong>End Date:</strong> {{ \Carbon\Carbon::parse($project->end_date)->format('Y-m-d') }}</p>
+                <p class="mb-1">
+                    <strong>Status:</strong> 
+                    {{ $project->status == 'pending' ? 'Pending' : ($project->status == 'on_going' ? 'In Progress' : 'Completed') }}
+                </p>
+                <p class="mb-4"><strong>Budget:</strong> ${{ $project->budget }}</p>
 
-                    <h5 class="mt-4">Project Progress</h5>
-                    <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: {{ $progress }}%;" 
-                             aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100">
-                            {{ round($progress) }}%
-                        </div>
+                @php
+                    $totalTasks = $project->tasks->count();
+                    $completedTasks = $project->tasks->where('status', 'completed')->count();
+                    $progress = $totalTasks > 0 ? ($completedTasks / $totalTasks) * 100 : 0;
+                @endphp
+
+                <h5 class="text-lg font-semibold mb-3">Project Progress</h5>
+                <div class="w-full bg-gray-300 rounded-full h-5 mb-6 overflow-hidden">
+                    <div class="bg-[#ff914d] text-white font-bold text-sm h-5 flex items-center justify-center transition-all duration-300"
+                         style="width: {{ $progress }}%;">
+                        {{ round($progress) }}%
                     </div>
-
-                    <a href="{{ route('projects.index') }}" class="btn btn-secondary mt-3">← Back to Projects</a>
                 </div>
+
+                <a href="{{ route('projects.index') }}" 
+                   class="inline-block bg-gray-200 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-300 transition">
+                   ← Back to Projects
+                </a>
             </div>
         </div>
 
         <!-- Team Members -->
-        <div class="col-md-5 mb-4">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="card-title mb-0">Team Members</h5>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addMemberModal">
-                            <i class="bi bi-plus-circle"></i>
-                        </button>
-                    </div>
-
-                    @forelse ($teamMembers as $user)
-                        <div class="team-card mb-2">
-                            <p class="fw-bold">{{ $user->name }}</p>
-                            <p class="text-muted small">{{ $user->email }}</p>
-                        </div>
-                    @empty
-                        <p class="text-muted">No team members assigned.</p>
-                    @endforelse
+        <div class="md:w-5/12">
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h5 class="text-xl font-semibold text-[#0b2c48] m-0">Team Members</h5>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#addMemberModal"
+                            class="bg-[#ff914d] hover:bg-[#e57732] text-white rounded-md p-2 transition" title="Add Team Member">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
                 </div>
+
+                @forelse ($teamMembers as $user)
+                    <div class="bg-white shadow-sm rounded-lg p-4 mb-3">
+                        <p class="font-semibold text-gray-900 mb-0">{{ $user->name }}</p>
+                        <p class="text-gray-500 text-sm">{{ $user->email }}</p>
+                    </div>
+                @empty
+                    <p class="text-gray-400 italic">No team members assigned.</p>
+                @endforelse
             </div>
         </div>
     </div>
@@ -151,27 +79,25 @@
 <!-- Add Member Modal -->
 <div class="modal fade" id="addMemberModal" tabindex="-1" aria-labelledby="addMemberModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ route('projects.addMember') }}" method="POST">
+        <div class="modal-content rounded-xl">
+            <form action="{{ route('projects.addMember') }}" method="POST" class="p-6">
                 @csrf
                 <input type="hidden" name="project_id" value="{{ $project->id }}">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addMemberModalLabel">Add Team Member</h5>
+                <div class="modal-header flex justify-between items-center mb-4">
+                    <h5 class="modal-title text-xl font-semibold" id="addMemberModalLabel">Add Team Member</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="user_id" class="form-label">Select User</label>
-                        <select class="form-select" name="user_id" required>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                <div class="modal-body mb-4">
+                    <label for="user_id" class="block mb-2 font-medium">Select User</label>
+                    <select id="user_id" name="user_id" required class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#ff914d]">
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Add Member</button>
+                <div class="modal-footer flex justify-end space-x-3">
+                    <button type="button" class="bg-gray-300 text-gray-700 rounded-md px-4 py-2 hover:bg-gray-400 transition" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="bg-[#ff914d] hover:bg-[#e57732] text-white rounded-md px-4 py-2 transition">Add Member</button>
                 </div>
             </form>
         </div>

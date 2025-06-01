@@ -8,149 +8,64 @@
         background-color: #fdf1e5 !important;
         font-family: 'Noto Sans', sans-serif;
     }
-
-    .dashboard-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 2rem;
-    }
-
-    .dashboard-card {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 1.5rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        padding: 2rem;
-        width: 100%;
-        max-width: 1100px;
-        backdrop-filter: blur(5px);
-    }
-
-    .dashboard-header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .dashboard-header h2 {
-        font-weight: 700;
-        color: #0b2c48;
-    }
-
-    .dashboard-header p {
-        color: #333;
-        font-size: 1rem;
-    }
-
-    .card {
-        border: none;
-        border-radius: 1rem;
-        background-color: #ffffff;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-        transition: transform 0.2s ease-in-out;
-    }
-
-    .card:hover {
-        transform: translateY(-2px);
-    }
-
-    .card-title {
-        color: #0b2c48;
-        font-weight: 600;
-    }
-
-    .card-text {
-        color: #444;
-    }
-
-    .list-group-item {
-        font-size: 0.95rem;
-        border: none;
-        border-bottom: 1px solid #eee;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .list-group-item:last-child {
-        border-bottom: none;
-    }
-
-    .btn {
-        background-color: #ff914d;
-        color: #fff;
-        font-weight: 500;
-        transition: all 0.2s ease-in-out;
-        border-radius: 999px;
-        padding: 0.5rem 1rem;
-    }
-
-    .btn:hover {
-        background-color: #e57732;
-        transform: scale(1.03);
-    }
-
-    .section-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        margin-bottom: 1rem;
-        color: #0b2c48;
-    }
-
-    .badge.bg-primary {
-        background-color: #0b2c48 !important;
-    }
-
-    .badge.bg-success {
-        background-color: #28a745 !important;
-    }
-
-    .badge.bg-warning {
-        background-color: #ffc107 !important;
-        color: #000 !important;
-    }
 </style>
 
-<div class="dashboard-wrapper">
-    <div class="dashboard-card">
-        <div class="dashboard-header">
-            <h2>Welcome to Taskaroo</h2>
-            <p>Manage your tasks and notes in one organized place.</p>
+<div class="flex justify-center items-center p-8 min-h-screen bg-[#fdf1e5] font-sans">
+    <div class="bg-white bg-opacity-95 backdrop-blur-sm rounded-3xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] p-8 w-full max-w-[1100px]">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-[#0b2c48] mb-2">Welcome to Taskaroo</h2>
+            <p class="text-gray-700 text-base">Manage your tasks and notes in one organized place.</p>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-4 mb-3">
-                <div class="card p-3 h-100">
-                    <h5 class="card-title">Tasks</h5>
-                    <p class="card-text">You have <strong>{{ $tasksCount }}</strong> tasks pending.</p>
-                    <a href="{{ route('projects.index') }}" class="btn mt-auto">View Tasks</a>
+        <div class="flex flex-wrap -mx-3 mb-8">
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div class="bg-white rounded-xl shadow-md p-6 flex flex-col h-full hover:-translate-y-0.5 transition-transform duration-200">
+                    <h5 class="text-[#0b2c48] font-semibold text-lg mb-2">Tasks</h5>
+                    <p class="text-gray-700 mb-4">You have <strong>{{ $tasksCount }}</strong> tasks pending.</p>
+                    <a href="{{ route('projects.index') }}" 
+                       class="mt-auto inline-block bg-[#ff914d] hover:bg-[#e57732] text-white font-medium rounded-full px-5 py-2 transition-transform duration-200 transform hover:scale-105 text-center">
+                       View Tasks
+                    </a>
                 </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <div class="card p-3 h-100">
-                    <h5 class="card-title">Notes</h5>
-                    <p class="card-text">You have <strong>{{ $notesCount }}</strong> notes saved.</p>
-                    <a href="{{ route('notes.index') }}" class="btn mt-auto">View Notes</a>
+
+            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <div class="bg-white rounded-xl shadow-md p-6 flex flex-col h-full hover:-translate-y-0.5 transition-transform duration-200">
+                    <h5 class="text-[#0b2c48] font-semibold text-lg mb-2">Notes</h5>
+                    <p class="text-gray-700 mb-4">You have <strong>{{ $notesCount }}</strong> notes saved.</p>
+                    <a href="{{ route('notes.index') }}" 
+                       class="mt-auto inline-block bg-[#ff914d] hover:bg-[#e57732] text-white font-medium rounded-full px-5 py-2 transition-transform duration-200 transform hover:scale-105 text-center">
+                       View Notes
+                    </a>
                 </div>
             </div>
-            <div class="col-md-4 mb-3">
-                <div class="card p-3 h-100">
-                    <h5 class="card-title">Completed Tasks</h5>
-                    <p class="card-text">You have <strong>{{ $completedTasksCount }}</strong> completed tasks.</p>
-                    <a href="{{ route('projects.index') }}" class="btn mt-auto">View Completed</a>
+
+            <div class="w-full md:w-1/3 px-3">
+                <div class="bg-white rounded-xl shadow-md p-6 flex flex-col h-full hover:-translate-y-0.5 transition-transform duration-200">
+                    <h5 class="text-[#0b2c48] font-semibold text-lg mb-2">Completed Tasks</h5>
+                    <p class="text-gray-700 mb-4">You have <strong>{{ $completedTasksCount }}</strong> completed tasks.</p>
+                    <a href="{{ route('projects.index') }}" 
+                       class="mt-auto inline-block bg-[#ff914d] hover:bg-[#e57732] text-white font-medium rounded-full px-5 py-2 transition-transform duration-200 transform hover:scale-105 text-center">
+                       View Completed
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="row mb-4">
-            <div class="col-md-6 mb-4">
-                <div class="card p-3 h-100">
-                    <div class="section-title">Recent Tasks</div>
-                    <ul class="list-group list-group-flush">
+        <div class="flex flex-wrap -mx-3">
+            <div class="w-full md:w-1/2 px-3 mb-8 md:mb-0">
+                <div class="bg-white rounded-xl shadow-md p-6 h-full">
+                    <div class="text-[#0b2c48] text-xl font-semibold mb-4">Recent Tasks</div>
+                    <ul>
                         @forelse($recentTasks as $task)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{ $task->title }}
-                                <span class="badge 
-                                    {{ $task->status == 'to_do' ? 'bg-primary' : ($task->status == 'in_progress' ? 'bg-warning text-dark' : 'bg-success') }} 
-                                    rounded-pill">
+                            <li class="flex justify-between items-center border-b border-gray-200 py-2 text-sm last:border-b-0">
+                                <span>{{ $task->title }}</span>
+                                <span 
+                                    class="rounded-full px-3 py-1 text-xs font-semibold
+                                    {{ $task->status == 'to_do' ? 'bg-[#0b2c48] text-white' : '' }}
+                                    {{ $task->status == 'in_progress' ? 'bg-yellow-400 text-black' : '' }}
+                                    {{ $task->status == 'completed' ? 'bg-green-600 text-white' : '' }}">
                                     {{
                                         $task->status == 'to_do' ? 'To Do' :
                                         ($task->status == 'in_progress' ? 'In Progress' : 'Completed')
@@ -158,20 +73,20 @@
                                 </span>
                             </li>
                         @empty
-                            <li class="list-group-item text-muted">No recent tasks available.</li>
+                            <li class="text-gray-400 italic py-2">No recent tasks available.</li>
                         @endforelse
                     </ul>
                 </div>
             </div>
 
-            <div class="col-md-6 mb-4">
-                <div class="card p-3 h-100">
-                    <div class="section-title">Recent Notes</div>
-                    <ul class="list-group list-group-flush">
+            <div class="w-full md:w-1/2 px-3">
+                <div class="bg-white rounded-xl shadow-md p-6 h-full">
+                    <div class="text-[#0b2c48] text-xl font-semibold mb-4">Recent Notes</div>
+                    <ul>
                         @forelse($recentNotes as $note)
-                            <li class="list-group-item">{{ $note->title }}</li>
+                            <li class="border-b border-gray-200 py-2 text-sm last:border-b-0">{{ $note->title }}</li>
                         @empty
-                            <li class="list-group-item text-muted">No recent notes available.</li>
+                            <li class="text-gray-400 italic py-2">No recent notes available.</li>
                         @endforelse
                     </ul>
                 </div>

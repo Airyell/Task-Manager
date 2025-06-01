@@ -5,104 +5,46 @@
 @endsection
 
 @section('content')
-<style>
-    body {
-        background-color: #fdf1e5 !important;
-        font-family: 'Noto Sans', sans-serif;
-    }
-
-    .notes-header {
-        background-color: #ffffff;
-        color: #0b2c48;
-        font-weight: bold;
-        padding: 1.25rem;
-        border-radius: 1rem;
-        box-shadow: 0 6px 12px rgba(0,0,0,0.06);
-        margin-bottom: 2rem;
-    }
-
-    .btn-primary {
-        background-color: #ff914d;
-        border-color: #ff914d;
-        border-radius: 0.5rem;
-        font-weight: 500;
-    }
-
-    .btn-primary:hover {
-        background-color: #e57732;
-        border-color: #e57732;
-    }
-
-    .btn-warning {
-        background-color: #ffd07b;
-        border-color: #ffc107;
-        color: #0b2c48;
-        font-weight: 500;
-        border-radius: 0.5rem;
-    }
-
-    .btn-danger {
-        background-color: #f87171;
-        border-color: #ef4444;
-        font-weight: 500;
-        border-radius: 0.5rem;
-    }
-
-    .card {
-        border: none;
-        border-radius: 1rem;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-        background-color: #ffffff;
-    }
-
-    .card-title {
-        color: #0b2c48;
-        font-weight: bold;
-    }
-
-    .card-text {
-        color: #333;
-    }
-
-    .alert-success {
-        border-radius: 0.75rem;
-    }
-</style>
-
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center notes-header">
+<div class="bg-[#fdf1e5] min-h-screen py-10 px-4 font-sans">
+    <div class="flex flex-col md:flex-row md:justify-between items-center bg-white text-[#0b2c48] font-bold text-xl py-5 px-6 rounded-2xl shadow-md max-w-7xl mx-auto mb-8">
         <h2>Notes</h2>
-        <a href="{{ route('notes.create') }}" class="btn btn-primary">Add Note</a>
+        <a href="{{ route('notes.create') }}"
+           class="mt-4 md:mt-0 inline-block bg-[#ff914d] hover:bg-[#e57732] text-white font-medium px-6 py-2 rounded-md transition duration-200">
+            Add Note
+        </a>
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success">
+        <div class="bg-green-100 text-green-800 px-6 py-4 rounded-xl shadow-md max-w-7xl mx-auto mb-6">
             {{ session('success') }}
         </div>
     @endif
 
-    <div class="row">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
         @forelse($notes as $note)
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ $note->title }}</h5>
-                        <p class="card-text flex-grow-1">{{ Str::limit($note->content, 150) }}</p>
-                        <p class="card-text"><strong>Date:</strong> {{ $note->date }}</p>
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('notes.edit', $note->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('notes.destroy', $note->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this note?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </div>
-                    </div>
+            <div class="bg-white rounded-2xl shadow-lg p-6 flex flex-col h-full">
+                <h5 class="text-[#0b2c48] font-bold text-lg mb-2">{{ $note->title }}</h5>
+                <p class="text-gray-700 flex-grow mb-3">{{ Str::limit($note->content, 150) }}</p>
+                <p class="text-gray-600 mb-4"><strong>Date:</strong> {{ $note->date }}</p>
+                <div class="flex justify-between">
+                    <a href="{{ route('notes.edit', $note->id) }}"
+                       class="bg-[#ffd07b] hover:bg-[#ffc107] text-[#0b2c48] font-medium px-4 py-2 rounded-md transition duration-200">
+                        Edit
+                    </a>
+                    <form action="{{ route('notes.destroy', $note->id) }}" method="POST"
+                          onsubmit="return confirm('Are you sure you want to delete this note?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="bg-red-400 hover:bg-red-500 text-white font-medium px-4 py-2 rounded-md transition duration-200">
+                            Delete
+                        </button>
+                    </form>
                 </div>
             </div>
         @empty
-            <div class="col-12 text-center">
-                <p class="text-muted">No notes found.</p>
+            <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center text-gray-500">
+                No notes found.
             </div>
         @endforelse
     </div>

@@ -38,4 +38,14 @@ class LoginController extends Controller
 
         return redirect('/');
     }
+
+protected function redirectTo()
+{
+    return auth()->user()->role === 'admin'
+        ? route('admin.dashboard')
+        : route('user.dashboard');
+}
+
+
+
 }
