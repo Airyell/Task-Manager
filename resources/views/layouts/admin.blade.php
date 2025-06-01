@@ -16,6 +16,32 @@
     body {
       font-family: 'Noto Sans', sans-serif;
     }
+
+    .circular-chart {
+      display: block;
+      margin: auto;
+      max-width: 60px;
+      max-height: 60px;
+    }
+
+    .circle-bg {
+      fill: none;
+      stroke: #eee;
+      stroke-width: 3.8;
+    }
+
+    .circle {
+      fill: none;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      animation: progress 1s ease-out forwards;
+    }
+
+    @keyframes progress {
+      0% {
+        stroke-dasharray: 0 100;
+      }
+    }
   </style>
 </head>
 
@@ -62,20 +88,20 @@
           <a href="{{ route('admin.dashboard') }}" class="text-white text-sm font-light" id="currentDateTime"></a>
         </div>
         @auth
-          <div class="relative">
-            <button class="flex items-center gap-2 text-white text-sm focus:outline-none" id="userDropdownBtn">
-              {{ Auth::user()->name }}
-              <i class="bi bi-caret-down-fill"></i>
-            </button>
-            <div id="dropdownMenu" class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg hidden z-50">
-              <a href="{{ route('profile.index') }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-              <a href="{{ route('history.index') }}" class="block px-4 py-2 hover:bg-gray-100">History</a>
-              <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
-              </form>
-            </div>
+        <div class="relative">
+          <button class="flex items-center gap-2 text-white text-sm focus:outline-none" id="userDropdownBtn">
+            {{ Auth::user()->name }}
+            <i class="bi bi-caret-down-fill"></i>
+          </button>
+          <div id="dropdownMenu" class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg hidden z-50">
+            <a href="{{ route('profile.index') }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
+            <a href="{{ route('history.index') }}" class="block px-4 py-2 hover:bg-gray-100">History</a>
+            <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+            </form>
           </div>
+        </div>
         @endauth
       </nav>
     </header>

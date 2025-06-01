@@ -11,11 +11,34 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $userCount = User::count();
-        $projectCount = Project::count();
-        $taskCount = Task::count();
+        $users = User::all();
+        // Since no status column in users, count all users as active
+        $activeUsers = $users->count();
 
-        return view('admin.dashboard', compact('userCount', 'projectCount', 'taskCount'));
+        $projects = Project::all();
+        $ongoingProjects = Project::where('status', 'ongoing')->count();
+
+        $tasks = Task::all();
+        // Assuming tasks don't have status, so consider all tasks as completed (or adjust logic)
+        $completedTasks = $tasks->count();
+
+        $userCount = $users->count();
+        $projectCount = $projects->count();
+        $taskCount = $tasks->count();
+
+        $userPercentage = $userCount > 0 ? ($activeUsers / $userCount) * 100 : 0;
+        $taskPercentage = $taskCount > 0 ? ($completedTasks / $taskCount) * 100 : 0;
+        $projectPercentage = $projectCount > 0 ? ($ongoingProjects / $projectCount) * 100 : 0;
+
+        return view('admin.dashboard', compact(
+            'userCount',
+            'projectCount',
+            'taskCount',
+            'userPercentage',
+            'taskPercentage',
+            'projectPercentage',
+            'tasks'    // <-- pass tasks to avoid undefined variable error
+        ));
     }
 
     public function users()
@@ -93,10 +116,10 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'status' => 'required',
+            'priority' => 'required', // changed from status to priority
         ]);
 
-        $task->update($request->only(['title', 'description', 'status']));
+        $task->update($request->only(['title', 'description', 'priority']));
 
         return redirect()->route('admin.tasks')->with('success', 'Task updated successfully.');
     }
@@ -108,9 +131,7 @@ class AdminController extends Controller
     }
 
     public function settings()
-{
-    // You can pass data to the view here if needed
-    return view('admin.settings');
-}
-
+    {
+        return view('admin.settings');
+    }
 }

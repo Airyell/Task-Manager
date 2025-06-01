@@ -24,27 +24,31 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="usersTable" width="100%" cellspacing="0">
+                {{-- Added Bootstrap classes for table styling and alignment --}}
+                <table class="table table-bordered table-hover" id="usersTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Username</th> {{-- Added Username column --}}
-                            <th>Email</th>
-                            <th>Role</th> {{-- Changed from 'Role' to 'Role' --}}
-                            <th>Actions</th>
+                            {{-- Text alignment classes for table headers --}}
+                            <th class="text-start">ID</th>
+                            <th class="text-start">Name</th>
+                            <th class="text-start">Username</th>
+                            <th class="text-start">Email</th>
+                            <th class="text-start">Role</th>
+                            <th class="text-center">Actions</th> {{-- Centered for better action button alignment --}}
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($users as $user)
                         <tr>
-                            <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->username }}</td> {{-- Display Username --}}
-                            <td>{{ $user->email }}</td>
-                            <td>{{ ucfirst($user->role) }}</td> {{-- Display Role, capitalized --}}
-                            <td>
-                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-info btn-sm">Edit</a>
+                            {{-- Text alignment classes for table data cells --}}
+                            <td class="text-start">{{ $user->id }}</td>
+                            <td class="text-start">{{ $user->name }}</td>
+                            <td class="text-start">{{ $user->username }}</td>
+                            <td class="text-start">{{ $user->email }}</td>
+                            {{-- Displaying 'user' or the actual role, capitalized --}}
+                            <td class="text-start">{{ ucfirst($user->role ?? 'user') }}</td>
+                            <td class="text-center"> {{-- Centered for action buttons --}}
+                                <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-info btn-sm mb-1">Edit</a>
                                 <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
@@ -54,7 +58,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="6" class="text-center">No users found.</td> {{-- Updated colspan --}}
+                            <td colspan="6" class="text-center">No users found.</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -65,12 +69,18 @@
 </div>
 @endsection
 
-{{-- You might want to add scripts for data tables here if using --}}
 @push('scripts')
+    {{-- You might want to add scripts for data tables here if using --}}
     {{-- Example for a simple DataTables initialization --}}
+    {{-- Ensure you have DataTables CSS and JS included in your layout if uncommenting --}}
     {{-- <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable();
+            $('#usersTable').DataTable({
+                "paging": true,
+                "ordering": true,
+                "info": true,
+                "searching": true
+            });
         });
     </script> --}}
 @endpush
