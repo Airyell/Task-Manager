@@ -12,15 +12,13 @@ class AdminController extends Controller
     public function dashboard()
     {
         $users = User::all();
-        // Since no status column in users, count all users as active
         $activeUsers = $users->count();
 
         $projects = Project::all();
         $ongoingProjects = Project::where('status', 'ongoing')->count();
 
         $tasks = Task::all();
-        // Assuming tasks don't have status, so consider all tasks as completed (or adjust logic)
-        $completedTasks = $tasks->count();
+        $completedTasks = Task::where('status', 'completed')->count();
 
         $userCount = $users->count();
         $projectCount = $projects->count();
@@ -37,7 +35,7 @@ class AdminController extends Controller
             'userPercentage',
             'taskPercentage',
             'projectPercentage',
-            'tasks'    // <-- pass tasks to avoid undefined variable error
+            'tasks'
         ));
     }
 
@@ -62,13 +60,13 @@ class AdminController extends Controller
 
         $user->update($request->only(['name', 'email', 'role']));
 
-        return redirect()->route('admin.users')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     public function destroyUser(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
 
     public function projects()
@@ -91,18 +89,18 @@ class AdminController extends Controller
 
         $project->update($request->only(['name', 'description']));
 
-        return redirect()->route('admin.projects')->with('success', 'Project updated successfully.');
+        return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
     }
 
     public function destroyProject(Project $project)
     {
         $project->delete();
-        return redirect()->route('admin.projects')->with('success', 'Project deleted successfully.');
+        return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
     }
 
     public function tasks()
     {
-        $tasks = Task::all();
+        $tasks = Task::with('user', 'project')->latest()->get();
         return view('admin.tasks.index', compact('tasks'));
     }
 
@@ -116,18 +114,18 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'priority' => 'required', // changed from status to priority
+            'priority' => 'required', // Or replace with status if needed
         ]);
 
         $task->update($request->only(['title', 'description', 'priority']));
 
-        return redirect()->route('admin.tasks')->with('success', 'Task updated successfully.');
+        return redirect()->route('admin.tasks.index')->with('success', 'Task updated successfully.');
     }
 
     public function destroyTask(Task $task)
     {
         $task->delete();
-        return redirect()->route('admin.tasks')->with('success', 'Task deleted successfully.');
+        return redirect()->route('admin.tasks.index')->with('success', 'Task deleted successfully.');
     }
 
     public function settings()

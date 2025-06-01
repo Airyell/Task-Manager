@@ -87,24 +87,28 @@ Route::middleware(['auth'])->group(function () {
 // Admin Routes using IsAdmin middleware
 // ---------------------------
 Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+
+    // Dashboard
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-    // Add .index to route names for list pages (fixes route not defined errors)
+    // Users
     Route::get('/users', [AdminController::class, 'users'])->name('users.index');
-    Route::get('/projects', [AdminController::class, 'projects'])->name('projects.index');
-    Route::get('/tasks', [AdminController::class, 'tasks'])->name('tasks.index');
-
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
     Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
 
+    // Projects
+    Route::get('/projects', [AdminController::class, 'projects'])->name('projects.index');
     Route::get('/projects/{project}/edit', [AdminController::class, 'editProject'])->name('projects.edit');
     Route::put('/projects/{project}', [AdminController::class, 'updateProject'])->name('projects.update');
     Route::delete('/projects/{project}', [AdminController::class, 'destroyProject'])->name('projects.destroy');
 
-    Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
-
+    // ✅ Tasks (corrected)
+    Route::get('/tasks', [AdminController::class, 'tasks'])->name('tasks.index');
     Route::get('/tasks/{task}/edit', [AdminController::class, 'editTask'])->name('tasks.edit');
     Route::put('/tasks/{task}', [AdminController::class, 'updateTask'])->name('tasks.update');
     Route::delete('/tasks/{task}', [AdminController::class, 'destroyTask'])->name('tasks.destroy');
+
+    // Settings (optional)
+    Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
 });

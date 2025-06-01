@@ -69,8 +69,13 @@
         </a>
       </li>
       <li>
-        <a class="flex items-center px-4 py-2 rounded hover:bg-white/10 transition {{ request()->routeIs('admin.settings*') ? 'bg-white/10' : '' }}" href="{{ route('admin.settings') }}">
-          <i class="bi bi-gear-fill mr-2"></i> Settings
+        <a class="flex items-center px-4 py-2 rounded hover:bg-white/10 transition {{ request()->routeIs('admin.tasks.index*') ? 'bg-white/10' : '' }}" href="{{ route('admin.tasks.index') }}">
+          <i class="bi bi-gear-fill mr-2"></i> Manage Tasks
+        </a>
+      </li>
+      <li>
+        <a class="flex items-center px-4 py-2 rounded hover:bg-white/10 transition {{ request()->routeIs('admin.projects*') ? 'bg-white/10' : '' }}" href="{{ route('admin.projects.index') }}">
+          <i class="bi bi-gear-fill mr-2"></i> Manage Projects
         </a>
       </li>
     </ul>
@@ -95,7 +100,6 @@
           </button>
           <div id="dropdownMenu" class="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg hidden z-50">
             <a href="{{ route('profile.index') }}" class="block px-4 py-2 hover:bg-gray-100">Profile</a>
-            <a href="{{ route('history.index') }}" class="block px-4 py-2 hover:bg-gray-100">History</a>
             <form method="POST" action="{{ route('logout') }}">
               @csrf
               <button type="submit" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
