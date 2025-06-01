@@ -39,7 +39,6 @@ class ProjectController extends Controller
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
             'status' => 'required|in:not_started,in_progress,completed',
-            'budget' => 'nullable|numeric',
         ]);
 
         $project = Auth::user()->projects()->create($request->all());
@@ -74,7 +73,7 @@ class ProjectController extends Controller
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',
             'status' => 'required|in:not_started,in_progress,completed',
-            'budget' => 'nullable|numeric',
+
         ]);
 
         $project->update($request->all());
