@@ -1,116 +1,103 @@
-@extends('layouts.app') {{-- Assuming you have a layout file --}}
+@extends('layouts.admin') {{-- Assuming you have a layout file --}}
+
+@section('title', 'Edit User: ' . $user->name) {{-- Set the page title --}}
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center mt-5"> {{-- Added mt-5 here --}}
-        <div class="col-md-8"> {{-- Removed mx-auto as justify-content-center on row handles it --}}
-            <div class="card">
-                <div class="card-header">Edit User: {{ $user->name }}</div>
+<div class="space-y-6 max-w-4xl mx-auto py-6"> {{-- Centering and spacing for the whole form content --}}
 
-                <div class="card-body">
-                    {{-- Success Message --}}
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Edit User: {{ $user->name }}</h2>
 
-                    <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
-                        @csrf
-                        @method('PUT') {{-- Use PUT method for updates --}}
+    <div class="bg-white rounded-lg shadow-md p-6"> {{-- Card-like container for the form --}}
+        <div class="border-b pb-4 mb-4"> {{-- Header for the form card --}}
+            <h3 class="text-xl font-semibold text-gray-800">User Profile</h3>
+        </div>
 
-                        {{-- Removed "User Details" heading --}}
-                        {{-- <hr> --}}
+        {{-- Success Message --}}
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+            </div>
+        @endif
 
-                        <div class="form-group row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">Name <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+        <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
+            @csrf
+            @method('PUT') {{-- Use PUT method for updates --}}
 
-                        <div class="form-group row mb-3">
-                            <label for="username" class="col-md-4 col-form-label text-md-right">Username <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username', $user->username) }}" required autocomplete="username">
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"> {{-- Grid for form fields --}}
+                {{-- Name --}}
+                <div class="col-span-full">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name <span class="text-red-500">*</span></label>
+                    <input id="name" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('name') border-red-500 @enderror" name="name" value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
+                    @error('name')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                        <div class="form-group row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">Email <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required autocomplete="email">
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                {{-- Username --}}
+                <div class="col-span-full">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
+                    <input id="username" type="text" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('username') border-red-500 @enderror" name="username" value="{{ old('username', $user->username) }}" required autocomplete="username">
+                    @error('username')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                        <div class="form-group row mb-3">
-                            <label for="role" class="col-md-4 col-form-label text-md-right">Role <span class="text-danger">*</span></label>
-                            <div class="col-md-6">
-                                <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" required>
-                                    <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
-                                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                </select>
-                                @error('role')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
+                {{-- Email --}}
+                <div class="col-span-full">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+                    <input id="email" type="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('email') border-red-500 @enderror" name="email" value="{{ old('email', $user->email) }}" required autocomplete="email">
+                    @error('email')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-                        {{-- Password Section (Optional) --}}
-                        <h4 class="mt-4">Change Password (Optional)</h4>
-                        <hr>
-                        <p class="text-muted">Leave these fields empty if you don't want to change the password.</p>
-
-                        <div class="form-group row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm New Password</label>
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Update User Profile
-                                </button>
-                                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
-                                    Cancel
-                                </a>
-                            </div>
-                        </div>
-                    </form>
+                {{-- Role --}}
+                <div class="col-span-full">
+                    <label for="role" class="block text-sm font-medium text-gray-700">Role <span class="text-red-500">*</span></label>
+                    <select id="role" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('role') border-red-500 @enderror" name="role" required>
+                        <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
+                        <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                    </select>
+                    @error('role')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
-        </div>
+
+            {{-- Password Section (Optional) --}}
+            <div class="mt-8 border-t pt-6">
+                <h3 class="text-xl font-semibold text-gray-800">Change Password (Optional)</h3>
+                <p class="text-sm text-gray-500 mt-2">Leave these fields empty if you don't want to change the password.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mt-4">
+                    {{-- New Password --}}
+                    <div class="col-span-full">
+                        <label for="password" class="block text-sm font-medium text-gray-700">New Password</label>
+                        <input id="password" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 @error('password') border-red-500 @enderror" name="password" autocomplete="new-password">
+                        @error('password')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    {{-- Confirm New Password --}}
+                    <div class="col-span-full">
+                        <label for="password-confirm" class="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                        <input id="password-confirm" type="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="password_confirmation" autocomplete="new-password">
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 flex justify-end space-x-3"> {{-- Buttons --}}
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Update User Profile
+                </button>
+                <a href="{{ route('admin.users.index') }}" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Cancel
+                </a>
+            </div>
+        </form>
     </div>
+
 </div>
 @endsection
