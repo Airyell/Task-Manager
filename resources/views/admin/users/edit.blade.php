@@ -1,70 +1,115 @@
-@extends('layouts.admin') {{-- Or whatever your admin layout file is --}}
-
-@section('title', 'Edit User')
+@extends('layouts.app') {{-- Assuming you have a layout file --}}
 
 @section('content')
-<div class="container-fluid">
-    <h1 class="h3 mb-4 text-gray-800">Edit User: {{ $user->name }}</h1>
+<div class="container">
+    <div class="row justify-content-center mt-5"> {{-- Added mt-5 here --}}
+        <div class="col-md-8"> {{-- Removed mx-auto as justify-content-center on row handles it --}}
+            <div class="card">
+                <div class="card-header">Edit User: {{ $user->name }}</div>
 
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+                <div class="card-body">
+                    {{-- Success Message --}}
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">User Details</h6>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
-                @csrf
-                @method('PUT') {{-- Use PUT method for updates --}}
+                    <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
+                        @csrf
+                        @method('PUT') {{-- Use PUT method for updates --}}
 
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" required>
+                        {{-- Removed "User Details" heading --}}
+                        {{-- <hr> --}}
+
+                        <div class="form-group row mb-3">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">Name <span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $user->name) }}" required autocomplete="name" autofocus>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="username" class="col-md-4 col-form-label text-md-right">Username <span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <input id="username" type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username', $user->username) }}" required autocomplete="username">
+                                @error('username')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">Email <span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $user->email) }}" required autocomplete="email">
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="role" class="col-md-4 col-form-label text-md-right">Role <span class="text-danger">*</span></label>
+                            <div class="col-md-6">
+                                <select id="role" class="form-control @error('role') is-invalid @enderror" name="role" required>
+                                    <option value="user" {{ old('role', $user->role) == 'user' ? 'selected' : '' }}>User</option>
+                                    <option value="admin" {{ old('role', $user->role) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                </select>
+                                @error('role')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- Password Section (Optional) --}}
+                        <h4 class="mt-4">Change Password (Optional)</h4>
+                        <hr>
+                        <p class="text-muted">Leave these fields empty if you don't want to change the password.</p>
+
+                        <div class="form-group row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-right">New Password</label>
+                            <div class="col-md-6">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" autocomplete="new-password">
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3">
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">Confirm New Password</label>
+                            <div class="col-md-6">
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" autocomplete="new-password">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-0">
+                            <div class="col-md-6 offset-md-4">
+                                <button type="submit" class="btn btn-primary">
+                                    Update User Profile
+                                </button>
+                                <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
+                                    Cancel
+                                </a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" value="{{ old('username', $user->username) }}" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $user->email) }}" required>
-                </div>
-
-                {{-- Using a select dropdown for roles --}}
-                <div class="form-group">
-                    <label for="role">Role</label>
-                    <select class="form-control" id="role" name="role" required>
-                        <option value="user" {{ old('role', $user->role) === 'user' ? 'selected' : '' }}>User</option>
-                        <option value="admin" {{ old('role', $user->role) === 'admin' ? 'selected' : '' }}>Admin</option>
-                        {{-- Add other roles if you have them in your system --}}
-                    </select>
-                </div>
-
-                {{-- Password change section (handle carefully in controller to hash it) --}}
-                <div class="form-group">
-                    <label for="password">New Password (leave blank to keep current)</label>
-                    <input type="password" class="form-control" id="password" name="password">
-                    <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
-                </div>
-                <div class="form-group">
-                    <label for="password_confirmation">Confirm New Password</label>
-                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-                </div>
-
-
-                <button type="submit" class="btn btn-primary">Update User</button>
-                <a href="{{ route('admin.users') }}" class="btn btn-secondary">Cancel</a>
-            </form>
+            </div>
         </div>
     </div>
 </div>
