@@ -386,16 +386,22 @@
         // Initialize draggable items
         function initDraggable() {
             document.querySelectorAll('.kanban-item').forEach(item => {
-                item.draggable = true;
+                // Check if the task is in the completed column
+                const isCompleted = item.closest('#completed') !== null;
+                
+                // Only make non-completed tasks draggable
+                item.draggable = !isCompleted;
 
-                item.addEventListener('dragstart', (e) => {
-                    draggedItem = item;
-                    setTimeout(() => item.classList.add('opacity-50'), 0);
-                });
+                if (!isCompleted) {
+                    item.addEventListener('dragstart', (e) => {
+                        draggedItem = item;
+                        setTimeout(() => item.classList.add('opacity-50'), 0);
+                    });
 
-                item.addEventListener('dragend', () => {
-                    item.classList.remove('opacity-50');
-                });
+                    item.addEventListener('dragend', () => {
+                        item.classList.remove('opacity-50');
+                    });
+                }
             });
         }
 
@@ -448,6 +454,11 @@
                     
                     statusBadge.textContent = `Status: ${statusText}`;
                     statusBadge.className = `text-xs px-2 py-1 rounded font-medium ${statusClass}`;
+
+                    // If task is moved to completed, make it non-draggable
+                    if (newStatus === 'completed') {
+                        draggedItem.draggable = false;
+                    }
 
                 } catch (error) {
                     console.error('Error:', error);

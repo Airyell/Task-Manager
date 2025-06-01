@@ -19,7 +19,6 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->enum('status', ['not_started', 'in_progress', 'completed'])->default('not_started');
-            $table->decimal('budget', 15, 2)->nullable();
             $table->timestamps();
         });
     }
