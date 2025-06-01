@@ -71,7 +71,10 @@ class AdminController extends Controller
 
     public function projects()
     {
-        $projects = Project::all();
+        $projects = Project::with(['user', 'users'])
+            ->latest()
+            ->get();
+
         return view('admin.projects.index', compact('projects'));
     }
 
