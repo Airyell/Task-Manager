@@ -43,13 +43,6 @@ class TaskController extends Controller
             // Get the user name for the response
             $userName = User::find($validated['user_id'])->name;
 
-            ActivityLog::create([
-                'user_id' => Auth::id(),
-                'action' => 'CREATED THE TASK: ' . $task->title,
-                'model_name' => $task->title,
-                'created_at' => now(),
-            ]);
-
             if ($request->ajax()) {
                 return response()->json([
                     'success' => true,
@@ -106,14 +99,6 @@ class TaskController extends Controller
 
         $task->update($validated);
 
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'UPDATED THE TASK: ' . $task->title,
-            'model_name' => 'Task',
-            'model_id' => $task->id,
-            'created_at' => now(),
-        ]);
-
         return redirect()->route('projects.tasks.index', $project)
             ->with('success', 'Task updated successfully.');
     }
@@ -134,36 +119,12 @@ class TaskController extends Controller
         $task->status = $newStatus;
         $task->save();
 
-        $statusActions = [
-            'to_do' => 'MOVED TASK TO TO DO',
-            'in_progress' => 'STARTED WORKING ON',
-            'completed' => 'COMPLETED THE TASK',
-        ];
-
-        $action = $statusActions[$newStatus] ?? 'UPDATED TASK STATUS';
-        $action .= ': ' . $task->title;
-
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => $action,
-            'model_name' => 'Task',
-            'model_id' => $task->id,
-            'created_at' => now(),
-        ]);
-
-        return response()->json(['message' => 'Task status updated and logged.']);
+        return response()->json(['message' => 'Task status updated successfully.']);
     }
 
     public function destroy(Project $project, Task $task)
     {
-        ActivityLog::create([
-            'user_id' => Auth::id(),
-            'action' => 'DELETED THE TASK: ' . $task->title,
-            'model_name' => 'Task',
-            'model_id' => $task->id,
-            'created_at' => now(),
-        ]);
-
+        // Remove the duplicate activity logging since it's handled by the Task model's deleted event
         $task->delete();
 
         return redirect()->route('projects.tasks.index', $project)

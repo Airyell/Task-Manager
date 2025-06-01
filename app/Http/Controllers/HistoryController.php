@@ -35,12 +35,25 @@ class HistoryController extends Controller
     }
 
     // Helper function to store activity
-    public static function logActivity($action, $modelName = null)
-    {
+    public static function logActivity($action, $modelName = null, $modelId = null)
+{
+    $userId = Auth::id();
+
+    $exists = ActivityLog::where('user_id', $userId)
+        ->where('action', $action)
+        ->where('model_name', $modelName)
+        ->where('model_id', $modelId)
+        ->where('created_at', '>=', now()->subSeconds(30)) // prevent duplicate in last 30s
+        ->exists();
+
+    if (!$exists) {
         ActivityLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => $userId,
             'action' => $action,
             'model_name' => $modelName ?? 'General',
+            'model_id' => $modelId,
         ]);
     }
 }
+
+    }

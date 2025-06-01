@@ -58,16 +58,34 @@ class Task extends Model
             ActivityLog::create([
                 'user_id' => Auth::id(),
                 'action' => 'CREATED THE TASK: ' . $task->title,
-                'model_name' => $task->title,
+                'model_name' => 'Task',
+                'model_id' => $task->id,
                 'created_at' => now(),
             ]);
         });
 
         static::updated(function ($task) {
+            $changes = $task->getChanges();
+            
+            // Handle status changes specifically
+            if (isset($changes['status'])) {
+                $statusActions = [
+                    'to_do' => 'MOVED TASK TO TO DO',
+                    'in_progress' => 'STARTED WORKING ON',
+                    'completed' => 'COMPLETED THE TASK',
+                ];
+                
+                $action = $statusActions[$task->status] ?? 'UPDATED TASK STATUS';
+                $action .= ': ' . $task->title;
+            } else {
+                $action = 'UPDATED THE TASK: ' . $task->title;
+            }
+
             ActivityLog::create([
                 'user_id' => Auth::id(),
-                'action' => 'UPDATED THE TASK: ' . $task->title,
-                'model_name' => $task->title,
+                'action' => $action,
+                'model_name' => 'Task',
+                'model_id' => $task->id,
                 'created_at' => now(),
             ]);
         });
@@ -76,7 +94,8 @@ class Task extends Model
             ActivityLog::create([
                 'user_id' => Auth::id(),
                 'action' => 'DELETED THE TASK: ' . $task->title,
-                'model_name' => $task->title,
+                'model_name' => 'Task',
+                'model_id' => $task->id,
                 'created_at' => now(),
             ]);
         });
