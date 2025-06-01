@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
     public function dashboard()
     {
-        $users = User::all();
+        $users = User::where('is_admin', false)->get();
         $activeUsers = $users->count();
 
         $projects = Project::all();
@@ -20,7 +21,7 @@ class AdminController extends Controller
         $tasks = Task::all();
         $completedTasks = Task::where('status', 'completed')->count();
 
-        $userCount = $users->count();
+        $userCount = $activeUsers; // Total users excluding admin
         $projectCount = $projects->count();
         $taskCount = $tasks->count();
 
@@ -39,9 +40,10 @@ class AdminController extends Controller
         ));
     }
 
+    // Show only non-admin users
     public function users()
     {
-        $users = User::all();
+        $users = User::where('is_admin', false)->get();
         return view('admin.users.index', compact('users'));
     }
 
@@ -53,12 +55,21 @@ class AdminController extends Controller
     public function updateUser(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'role' => 'required',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:users,username,' . $user->id,
+            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
         ]);
 
-        $user->update($request->only(['name', 'email', 'role']));
+        $user->name = $request->name;
+        $user->username = $request->username;
+        $user->email = $request->email;
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+        $user->save();
 
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
@@ -114,7 +125,7 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'priority' => 'required', // Or replace with status if needed
+            'priority' => 'required',
         ]);
 
         $task->update($request->only(['title', 'description', 'priority']));

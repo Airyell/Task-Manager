@@ -103,12 +103,12 @@ Route::middleware(['auth', IsAdmin::class])->prefix('admin')->name('admin.')->gr
     Route::put('/projects/{project}', [AdminController::class, 'updateProject'])->name('projects.update');
     Route::delete('/projects/{project}', [AdminController::class, 'destroyProject'])->name('projects.destroy');
 
-    // ✅ Tasks (corrected)
+    // Tasks
     Route::get('/tasks', [AdminController::class, 'tasks'])->name('tasks.index');
     Route::get('/tasks/{task}/edit', [AdminController::class, 'editTask'])->name('tasks.edit');
     Route::put('/tasks/{task}', [AdminController::class, 'updateTask'])->name('tasks.update');
     Route::delete('/tasks/{task}', [AdminController::class, 'destroyTask'])->name('tasks.destroy');
 
-    // Settings (optional)
+    // Settings
     Route::get('/settings', [AdminController::class, 'settings'])->name('settings');
 });
