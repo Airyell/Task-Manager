@@ -8,11 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    /**
+     * Show the login form.
+     */
     public function showLoginForm()
     {
         return view('auth.login');
     }
 
+    /**
+     * Handle the login request.
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -31,15 +37,22 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * Handle the redirect after successful login.
+     */
     protected function authenticated(Request $request, $user)
     {
-        if ($user->isAdmin()) {
+        if (method_exists($user, 'isAdmin') && $user->isAdmin()) {
             return redirect('/admin/dashboard');
         }
 
-        return redirect('/dashboard');
+        // Redirect regular users to the dashboard route defined in web.php ("/")
+        return redirect()->route('dashboard');
     }
 
+    /**
+     * Log the user out and invalidate the session.
+     */
     public function logout(Request $request)
     {
         Auth::logout();
