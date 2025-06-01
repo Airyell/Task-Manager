@@ -18,9 +18,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'username', // ✅ Added this line
+        'username',
         'email',
         'password',
+        'is_admin', // <--- ADDED THIS LINE to make it mass assignable
     ];
 
     /**
@@ -40,6 +41,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean', // <--- ADDED THIS LINE to automatically cast 1/0 to true/false
     ];
 
     /**
@@ -75,7 +77,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the calendar events for the user.
+     * Get the files for the user.
      */
     public function files()
     {
@@ -92,9 +94,23 @@ class User extends Authenticatable
         return $this->belongsToMany(Project::class, 'project_teams', 'user_id', 'project_id');
     }
 
-    public function isAdmin()
+    /**
+     * Check if the user is an administrator.
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return (bool) $this->is_admin; // <--- UPDATED LOGIC: directly check the boolean 'is_admin' attribute
     }
 
+    /**
+     * Check if the user is a regular user (not an admin).
+     *
+     * @return bool
+     */
+    public function isUser(): bool
+    {
+        return !(bool) $this->is_admin; // <--- UPDATED LOGIC: simply the inverse of isAdmin()
+    }
 }

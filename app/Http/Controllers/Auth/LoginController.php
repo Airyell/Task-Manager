@@ -20,9 +20,10 @@ class LoginController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        if (Auth::attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+
+            return $this->authenticated($request, Auth::user());
         }
 
         return back()->withErrors([
@@ -30,22 +31,22 @@ class LoginController extends Controller
         ]);
     }
 
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->isAdmin()) {
+            return redirect('/admin/dashboard');
+        }
+
+        return redirect('/dashboard');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
-
-protected function redirectTo()
-{
-    return auth()->user()->role === 'admin'
-        ? route('admin.dashboard')
-        : route('user.dashboard');
-}
-
-
-
 }

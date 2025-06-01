@@ -1,8 +1,10 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
@@ -18,6 +20,11 @@ class Task extends Model
         'status',
     ];
 
+    protected $attributes = [
+        'status' => 'to_do', // default status
+    ];
+
+    // Relationships
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -28,22 +35,50 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    public function getStatusColorAttribute()
-    {
-        switch ($this->status) {
-            case 'to_do':
-                return 'primary';
-            case 'in_progress':
-                return 'warning';
-            case 'completed':
-                return 'success';
-            default:
-                return 'secondary';
-        }
-    }
-
     public function checklistItems()
     {
         return $this->hasMany(ChecklistItem::class);
+    }
+
+    // Computed property for status badge color
+    public function getStatusColorAttribute()
+    {
+        return match($this->status) {
+            'to_do' => 'primary',
+            'in_progress' => 'warning',
+            'completed' => 'success',
+            default => 'secondary',
+        };
+    }
+
+    // Automatically log task activity
+    protected static function booted()
+    {
+        static::created(function ($task) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'CREATED THE TASK: ' . $task->title,
+                'model_name' => $task->title,
+                'created_at' => now(),
+            ]);
+        });
+
+        static::updated(function ($task) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'UPDATED THE TASK: ' . $task->title,
+                'model_name' => $task->title,
+                'created_at' => now(),
+            ]);
+        });
+
+        static::deleted(function ($task) {
+            ActivityLog::create([
+                'user_id' => Auth::id(),
+                'action' => 'DELETED THE TASK: ' . $task->title,
+                'model_name' => $task->title,
+                'created_at' => now(),
+            ]);
+        });
     }
 }

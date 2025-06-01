@@ -9,10 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
-      background: url('{{ asset('assets/img/Background.png') }}') no-repeat center center fixed; background-size: cover; font-family: 'Poppins', sans-serif;}
+      background: url('{{ asset('assets/img/Background.png') }}') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+    }
 
     .glass-card {
-      background: rgba(255, 248, 241, 0.85); border-radius: 1rem; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25); backdrop-filter: blur(10px); border: 1px solid rgba(100, 90, 80, 0.2);}
+      background: rgba(255, 248, 241, 0.85);
+      border-radius: 1rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(100, 90, 80, 0.2);
+    }
 
     @keyframes pulse {
       0%, 100% { transform: scale(1); opacity: 1; }
@@ -20,7 +28,8 @@
     }
 
     .animate-pulse-img {
-      animation: pulse 2s infinite; }
+      animation: pulse 2s infinite;
+    }
   </style>
 </head>
 <body class="flex flex-col items-center min-h-screen pt-8">
@@ -36,28 +45,28 @@
 
     <!-- Card Body -->
     <div class="p-6">
-      <form method="POST" action="{{ route('login') }}">
+      <form method="POST" action="{{ route('login') }}" aria-label="Login form">
         @csrf
 
         <!-- Email Field -->
         <div class="mb-4">
           <label for="email" class="block font-semibold text-[#0f2d4e] mb-1">Email Address</label>
-          <input type="email" name="email" id="email"
+          <input type="email" name="email" id="email" autocomplete="email"
                  class="w-full rounded-xl px-4 py-2 border border-gray-300 bg-[#fdf9f3] focus:outline-none focus:ring-2 focus:ring-[#0f2d4e]/30"
                  placeholder="admin@example.com" required autofocus />
           @error('email')
-          <span class="text-red-600 text-sm">{{ $message }}</span>
+            <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
         </div>
 
         <!-- Password Field -->
         <div class="mb-4">
           <label for="password" class="block font-semibold text-[#0f2d4e] mb-1">Password</label>
-          <input type="password" name="password" id="password"
+          <input type="password" name="password" id="password" autocomplete="current-password"
                  class="w-full rounded-xl px-4 py-2 border border-gray-300 bg-[#fdf9f3] focus:outline-none focus:ring-2 focus:ring-[#0f2d4e]/30"
                  required />
           @error('password')
-          <span class="text-red-600 text-sm">{{ $message }}</span>
+            <span class="text-red-600 text-sm">{{ $message }}</span>
           @enderror
         </div>
 

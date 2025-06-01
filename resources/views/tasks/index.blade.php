@@ -5,7 +5,6 @@
 @section('content')
 
 <style>
-    /* Optional: if you want to keep the cursor and opacity effects */
     .kanban-item {
         cursor: move;
     }
@@ -40,14 +39,15 @@
                     <div class="bg-white rounded shadow p-4 kanban-item" data-id="{{ $task->id }}" draggable="true">
                         <div class="flex justify-between items-center mb-2">
                             <h5 class="font-semibold text-lg flex-grow">{{ $task->title }}</h5>
-                            <span
-                                class="inline-block px-2 py-0.5 rounded text-sm font-semibold
+                            <span class="inline-block px-2 py-0.5 rounded text-sm font-semibold
                                 {{ $task->priority == 'low' ? 'bg-green-500 text-white' : ($task->priority == 'medium' ? 'bg-yellow-400 text-gray-900' : 'bg-red-600 text-white') }}">
                                 {{ ucfirst($task->priority) }}
                             </span>
                         </div>
-                        <p class="text-gray-700 mb-4">{{ $task->description }}</p>
-                        <div class="flex justify-end gap-2">
+                        <p class="text-gray-700 mb-2">{{ $task->description }}</p>
+                        <p class="text-sm text-gray-500 mb-2">Due: {{ $task->due_date }}</p>
+                        <span class="text-xs px-2 py-1 rounded bg-blue-200 text-blue-800 font-medium">Status: To Do</span>
+                        <div class="flex justify-end gap-2 mt-3">
                             <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                 @csrf
                                 @method('DELETE')
@@ -71,14 +71,15 @@
                     <div class="bg-white rounded shadow p-4 kanban-item" data-id="{{ $task->id }}" draggable="true">
                         <div class="flex justify-between items-center mb-2">
                             <h5 class="font-semibold text-lg flex-grow">{{ $task->title }}</h5>
-                            <span
-                                class="inline-block px-2 py-0.5 rounded text-sm font-semibold
+                            <span class="inline-block px-2 py-0.5 rounded text-sm font-semibold
                                 {{ $task->priority == 'low' ? 'bg-green-500 text-white' : ($task->priority == 'medium' ? 'bg-yellow-400 text-gray-900' : 'bg-red-600 text-white') }}">
                                 {{ ucfirst($task->priority) }}
                             </span>
                         </div>
-                        <p class="text-gray-700 mb-4">{{ $task->description }}</p>
-                        <div class="flex justify-end gap-2">
+                        <p class="text-gray-700 mb-2">{{ $task->description }}</p>
+                        <p class="text-sm text-gray-500 mb-2">Due: {{ $task->due_date }}</p>
+                        <span class="text-xs px-2 py-1 rounded bg-yellow-200 text-yellow-900 font-medium">Status: In Progress</span>
+                        <div class="flex justify-end gap-2 mt-3">
                             <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                 @csrf
                                 @method('DELETE')
@@ -102,14 +103,15 @@
                     <div class="bg-white rounded shadow p-4 kanban-item" data-id="{{ $task->id }}" draggable="true">
                         <div class="flex justify-between items-center mb-2">
                             <h5 class="font-semibold text-lg flex-grow">{{ $task->title }}</h5>
-                            <span
-                                class="inline-block px-2 py-0.5 rounded text-sm font-semibold
+                            <span class="inline-block px-2 py-0.5 rounded text-sm font-semibold
                                 {{ $task->priority == 'low' ? 'bg-green-500 text-white' : ($task->priority == 'medium' ? 'bg-yellow-400 text-gray-900' : 'bg-red-600 text-white') }}">
                                 {{ ucfirst($task->priority) }}
                             </span>
                         </div>
-                        <p class="text-gray-700 mb-4">{{ $task->description }}</p>
-                        <div class="flex justify-end gap-2">
+                        <p class="text-gray-700 mb-2">{{ $task->description }}</p>
+                        <p class="text-sm text-gray-500 mb-2">Due: {{ $task->due_date }}</p>
+                        <span class="text-xs px-2 py-1 rounded bg-green-200 text-green-800 font-medium">Status: Completed</span>
+                        <div class="flex justify-end gap-2 mt-3">
                             <form action="{{ route('projects.tasks.destroy', [$project->id, $task->id]) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                 @csrf
                                 @method('DELETE')
@@ -181,11 +183,9 @@
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
-    // Pass status value to modal when '+' button is clicked
     document.querySelectorAll('button[data-bs-toggle="modal"]').forEach(button => {
         button.addEventListener('click', () => {
             const status = button.getAttribute('data-status');

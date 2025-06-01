@@ -1,78 +1,63 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
-<div class="min-h-screen bg-gray-100 p-6">
-    <div class="max-w-7xl mx-auto">
-        <h1 class="text-3xl font-bold mb-6 text-gray-800">Admin Dashboard</h1>
+<div class="container mt-4">
+    <h1 class="mb-4">Admin Dashboard</h1>
 
-        {{-- Users Section --}}
-        <section class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Users</h2>
-            <div class="overflow-x-auto bg-white rounded-lg shadow">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+    @if(auth()->user()->role === 'admin')
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Users</h5>
+                        <p class="card-text">{{ $users->count() }} total users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Projects</h5>
+                        <p class="card-text">{{ $projects->count() }} total projects</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Tasks</h5>
+                        <p class="card-text">{{ $tasks->count() }} total tasks</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Tasks Table -->
+        <div class="card">
+            <div class="card-header">Recent Tasks</div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                            <th>Task Name</th>
+                            <th>Assigned User</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($users as $user)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">{{ $user->role }}</td>
-                        </tr>
+                    <tbody>
+                        @foreach($tasks->take(5) as $task)
+                            <tr>
+                                <td>{{ $task->name }}</td>
+                                <td>{{ $task->user->name ?? 'Unassigned' }}</td>
+                                <td>{{ ucfirst($task->status) }}</td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
-        </section>
-
-        {{-- Tasks Section --}}
-        <section class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Tasks</h2>
-            <div class="overflow-x-auto bg-white rounded-lg shadow">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Assigned User ID</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($tasks as $task)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $task->title }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $task->user_id }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        {{-- Projects Section --}}
-        <section>
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">Projects</h2>
-            <div class="overflow-x-auto bg-white rounded-lg shadow">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Project Name</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        @foreach ($projects as $project)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $project->name }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </section>
-    </div>
+        </div>
+    @else
+        <div class="alert alert-danger">You are not authorized to view this page.</div>
+    @endif
 </div>
 @endsection
